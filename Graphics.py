@@ -14,7 +14,6 @@ class Graphics:
         pygame.display.set_caption("Mancala")
         self.load_img()           
         self.load_menu_items()           
-        self.test = None
     
 
     def load_img(self):
