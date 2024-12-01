@@ -32,8 +32,9 @@ class DQN_Agent(Agent):
         if action: 
             return action
         
-        time.sleep(0.6)
-        
+        if not self.train:
+            time.sleep(0.6)
+
         epsilon = epsilon_greedy(epoch)
         rnd = random.random()
         actions = self.env.legal_actions(state)
