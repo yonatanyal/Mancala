@@ -14,6 +14,7 @@ class Graphics:
         pygame.display.set_caption("Mancala")
         self.load_img()           
         self.load_menu_items()           
+        self.test = None
     
 
     def load_img(self):
@@ -269,6 +270,7 @@ class Graphics:
             self.HUMANP1_BUTTON, self.RANDOMP1_BUTTON, self.DQNP1_BUTTON, self.P1_BUTTON,
             self.HUMANP2_BUTTON, self.RANDOMP2_BUTTON, self.DQNP2_BUTTON, self.P2_BUTTON,
             self.PLAY_BUTTON
+
         ]
 
         for button in buttons:
