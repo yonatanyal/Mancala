@@ -22,7 +22,7 @@ class Environment:
     
 
     def legal_actions(self, state: State) -> list:
-        row = self.state.player - 1
+        row = state.player - 1
         return [(row, col) for col in range(COLS) if self.legal(state, (row, col))]
 
 
@@ -32,12 +32,12 @@ class Environment:
         if action == (-1, -1):
             state.curr_extra_turn = True
             self.switch_players(state)
-            return 0, state
+            return state, 0
         
         row, col = action
         player = state.player
         stones = state.board[action]; stones_left = stones
-        self.state.board[action] = 0
+        state.board[action] = 0
         step = -1 if player == 1 else 1
 
         reward = 0
@@ -75,8 +75,6 @@ class Environment:
             state.board[1][6] += added
             state.board[0][curr_pit[1] + 1] = 0
             state.board[curr_pit] = 0
-
-        print(self.state.board)
         
         if self.end_of_game(state):
             diff = state.board[0][0] - state.board[1][6]

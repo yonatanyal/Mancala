@@ -24,11 +24,8 @@ class DQN_Agent(Agent):
         self.train = train
 
 
-    def get_action (self, state = None, epoch = 0) -> tuple[int]:
-        if not state:
-            state = self.env.state
-
-        action = super().get_action()
+    def get_action (self, state: State, epoch = 0) -> tuple[int]:
+        action = super().get_action(state)
         if action: 
             return action
         
@@ -41,7 +38,7 @@ class DQN_Agent(Agent):
         if self.train and rnd < epsilon:
             return random.choice(actions)
         
-        state_tensor = self.env.state.to_tensor()
+        state_tensor = state.to_tensor()
         action_np = np.array(actions, dtype=np.float32)
         action_tensor = torch.from_numpy(action_np)
         expand_state_tensor = state_tensor.unsqueeze(0).repeat((len(action_tensor),1))
@@ -70,5 +67,5 @@ class DQN_Agent(Agent):
         self.DQN.load_params(path)
 
 
-    def __call__(self, _) -> tuple[int]:
-        return self.get_action()
+    def __call__(self, state: State, _) -> tuple[int]:
+        return self.get_action(state)

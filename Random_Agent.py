@@ -2,6 +2,7 @@ import random
 from Agent import Agent
 from Environment import Environment
 import time
+from State import State
 
 # class Random_Agent:
 #         def __init__(self, player: int, env: Environment):
@@ -27,17 +28,14 @@ class Random_Agent(Agent):
             super().__init__(player, env)
             
 
-        def get_action(self) -> tuple[int]:
-            action = super().get_action() # extra turn
+        def get_action(self, state: State) -> tuple[int]:
+            action = super().get_action(state) # extra turn
             if action: 
                 return action
-            
-            time.sleep(0.6)
-            
-            action = random.choice(self.env.legal_actions(self.env.state))
-            print(action)
+                        
+            action = random.choice(self.env.legal_actions(state))
             return action 
 
 
-        def __call__(self, _) -> tuple[int]:
-            return self.get_action()
+        def __call__(self,state: State,  _) -> tuple[int]:
+            return self.get_action(state)

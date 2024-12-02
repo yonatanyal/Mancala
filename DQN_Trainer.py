@@ -10,8 +10,8 @@ from Constants import *
 
 def main ():
     env = Environment()
-    player1 = DQN_Agent(1, env, train=True)
-    player2 = Random_Agent(2, env=env)
+    player1 = DQN_Agent(1, env, parametes_path="Data\DQN_TEST1.pth" ,train=True)
+    player2 = Random_Agent(2, env)
     replay = ReplayBuffer()
     Q = player1.DQN
     Q_hat :DQN = Q.copy()

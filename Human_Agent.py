@@ -3,6 +3,7 @@ from Agent import Agent
 from typing import Any
 from Environment import Environment
 from Graphics import Graphics
+from State import State
 
 
 # class Human_Agent:
@@ -33,8 +34,8 @@ class Human_Agent(Agent):
         self.graphics = graphics
 
 
-    def get_action(self, events) -> tuple[int]:
-        action = super().get_action()
+    def get_action(self, state: State, events) -> tuple[int]:
+        action = super().get_action(state)
         if action: 
             return action
 
@@ -46,5 +47,5 @@ class Human_Agent(Agent):
                     return action
 
     
-    def __call__(self, events) -> tuple[int]:
-        return self.get_action(events)
+    def __call__(self, state: State, events) -> tuple[int]:
+        return self.get_action(state, events)

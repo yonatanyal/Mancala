@@ -30,9 +30,9 @@ output_size = 1 # Q(s,a)
 GAMMA = 0.99
 
 #DQn Training
-epochs = 30000
+epochs = 50000
 C = 300
-BATCH_SIZE = 64
+BATCH_SIZE = 1000
 LR = 0.1
-path = "Data\DQN_PARAM1.pth"
+path = "Data\DQN_TEST2.pth"
 

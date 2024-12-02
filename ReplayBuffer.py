@@ -15,7 +15,7 @@ class ReplayBuffer:
     def push_tensor(self, state_tensor, action_tensor, reward_tensor, next_state_tensor, done) -> None:
         self.buffer.append((state_tensor, action_tensor, reward_tensor, next_state_tensor, done))
             
-    def sample(self, batch_size) -> tuple[torch.Tensor[State], torch.Tensor[tuple[int]], torch.Tensor[int], torch.Tensor[State], torch.Tensor[int]] :
+    def sample(self, batch_size):
         if (batch_size > self.__len__()):
             batch_size = self.__len__()
         state_tensors, action_tensor, reward_tensors, next_state_tensors, dones = zip(*random.sample(self.buffer, batch_size))

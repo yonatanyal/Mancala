@@ -63,7 +63,7 @@ def play():
             if event.type == pygame.QUIT:
                 run = False
         if play:
-            action = player(events)
+            action = player(env.state, events)
             if action:
                 env.move(env.state, action)
                 player = switch_players(player)

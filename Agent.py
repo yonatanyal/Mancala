@@ -1,4 +1,5 @@
 from Environment import Environment
+from State import State
 
 
 class Agent:
@@ -7,7 +8,7 @@ class Agent:
             self.env = env
 
 
-    def get_action(self) -> tuple[int] | None:
-            if self.env.state.extra_turn:
+    def get_action(self, state: State) -> tuple[int] | None:
+            if state.extra_turn:
                 return (-1, -1)
             
