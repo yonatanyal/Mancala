@@ -33,7 +33,7 @@ def main ():
             replay.push(state, action, reward, next_state, env.end_of_game(next_state))
             state = next_state
             
-        if len(replay) < 1000:
+        if len(replay) < BATCH_SIZE:
             continue
 
         states, actions, rewards, next_states, dones = replay.sample(BATCH_SIZE)

@@ -49,13 +49,13 @@ class DQN_Agent(Agent):
         return actions[max_action]
 
 
-    def get_actions (self, states, dones: torch.Tensor) -> torch.Tensor:
+    def get_actions(self, states: torch.Tensor, dones: torch.Tensor) -> torch.Tensor:
         actions = []
         for i, state in enumerate(states):
             if dones[i].item():
                 actions.append((1, 1))
             else:
-                actions.append(self.get_action((State.tensor_to_state(state,self.player)))) 
+                actions.append(self.get_action((State.tensor_to_state(state, self.player)))) 
         return torch.tensor(actions)
     
 
