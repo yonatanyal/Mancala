@@ -20,7 +20,7 @@ class DQN(nn.Module):
         x = self.linear1(x)
         x = F.relu(x)
         x = self.linear2(x)
-        x = F.relu(x)
+        x = F.leaky_relu(x)
         x = self.output(x)
         return x
     

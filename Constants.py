@@ -31,8 +31,8 @@ GAMMA = 0.99
 
 #DQn Training
 epochs = 50000
-C = 300
-BATCH_SIZE = 1000
+C = 100
+BATCH_SIZE = 64
 LR = 0.1
-path = "Data\DQN_TEST2.pth"
+path = "Data\DQN_TEST1.pth"
 

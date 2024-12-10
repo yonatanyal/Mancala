@@ -4,6 +4,7 @@ from Random_Agent import Random_Agent
 from DQN import DQN
 from DQN_Agent import DQN_Agent
 from State import State
+from Constants import *
 from Environment import Environment
 
 
@@ -27,7 +28,7 @@ class Tester:
                 self.env.move(self.env.state, action)
                 player = self.switch_players(player)
                 if self.env.is_end_of_game(self.env.state):
-                    res = self.env.end_of_game(self.env.state)
+                    res = self.env.state.end_of_game
                     if res == 1:
                         player1_wins += 1
                     elif res == 2:
@@ -50,7 +51,8 @@ class Tester:
 
 if __name__ == '__main__':
     env = Environment(State())
-    player1 = DQN_Agent(1, env, parameters_path='Data/DQN_TEST1.pth', test=True)
+    player1 = DQN_Agent(1, env, parameters_path=path, test=True)
+    # player1 = Random_Agent(1, env)
     player2 = Random_Agent(2, env)
     tester = Tester(env,player1, player2)
     print(tester.test(100))
