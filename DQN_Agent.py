@@ -16,12 +16,13 @@ MSELoss = nn.MSELoss()
 
 
 class DQN_Agent(Agent):
-    def __init__(self, player: int, env: Environment, parametes_path = None, train = False) -> None:
+    def __init__(self, player: int, env: Environment, parameters_path = None, train = False, test = False) -> None:
         super().__init__(player, env)
         self.DQN = DQN()
-        if parametes_path:
-            self.DQN.load_params(parametes_path)
+        if parameters_path:
+            self.DQN.load_params(parameters_path)
         self.train = train
+        self.test = test
 
 
     def get_action (self, state: State, epoch = 0) -> tuple[int]:
@@ -29,7 +30,7 @@ class DQN_Agent(Agent):
         if action: 
             return action
         
-        if not self.train:
+        if not (self.train or self.test):
             time.sleep(0.6)
 
         epsilon = epsilon_greedy(epoch)
@@ -67,5 +68,5 @@ class DQN_Agent(Agent):
         self.DQN.load_params(path)
 
 
-    def __call__(self, state: State, _) -> tuple[int]:
+    def __call__(self, state: State, events = None) -> tuple[int]:
         return self.get_action(state)

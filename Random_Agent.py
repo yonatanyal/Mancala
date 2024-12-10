@@ -37,5 +37,5 @@ class Random_Agent(Agent):
             return action 
 
 
-        def __call__(self,state: State,  _) -> tuple[int]:
+        def __call__(self,state: State,  events = None) -> tuple[int]:
             return self.get_action(state)

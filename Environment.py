@@ -4,7 +4,7 @@ from Constants import *
 
 
 class Environment:
-    def __init__(self, state: State = None) -> None:
+    def __init__(self, state: State = State()) -> None:
         self.state = state
 
 

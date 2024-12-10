@@ -32,7 +32,7 @@ def main_menu():
             case 2:
                 player1  = Random_Agent(1, env)
             case 3:
-                player1  = DQN_Agent(1, env)
+                player1  = DQN_Agent(1, env, parameters_path='Data/DQN_TEST1.pth')
             case 4:
                 player1  = Random_Agent(1, env)
             case 5:
