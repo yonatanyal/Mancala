@@ -6,26 +6,36 @@ from ReplayBuffer import ReplayBuffer
 from State import State
 import torch 
 from Constants import *
+import matplotlib.pyplot as plt
+import numpy as np
 
 
 def main ():
     env = Environment()
-    player1 = DQN_Agent(1, env, parametes_path="Data\DQN_TEST1.pth" ,train=True)
+    player1 = DQN_Agent(1, env ,train=True)
     player2 = Random_Agent(2, env)
     replay = ReplayBuffer()
     Q = player1.DQN
     Q_hat :DQN = Q.copy()
     Q_hat.train = False
-    optim = torch.optim.SGD(Q.parameters(), lr=LR)
+    optim = torch.optim.Adam(Q.parameters(), lr=LR)
+
+    avg_diff = 0
+    wins = 0
+    losses = []
+    avg_diffs = []
+    wins_per_100 = []
        
     for epoch in range(epochs):
-        print (epoch, end="\r")
         state = State()
         while not env.end_of_game(state):
             action = player1.get_action(state, epoch=epoch)
             after_state, reward = env.move(state, action)
             if env.end_of_game(after_state):
                 replay.push(state, action, reward, after_state, env.end_of_game(next_state))
+                avg_diff += after_state.diff()
+                if after_state.diff() > 0:
+                    wins+=1
                 break
             
             after_action = player2.get_action(state=after_state)
@@ -47,10 +57,42 @@ def main ():
         optim.step()
         optim.zero_grad()
         
-    if epoch % C == 0:
-        Q_hat.load_state_dict(Q.state_dict())
+        if epoch % C == 0:
+            Q_hat.load_state_dict(Q.state_dict())
+    
+        if epoch % 100 == 0:
+            avg_diff /= 100
+            losses.append(loss.item())
+            wins_per_100.append(wins)
+            avg_diffs.append(avg_diff)
+            print(f'epoch: {epoch}, loss: {loss.item():.2f}, wins per 100: {wins}, avg piece diff: {avg_diff}')
 
-    player1.save_param(path)
+            avg_diff = 0
+            wins = 0
+
+
+    player1.save_param(file)
+    torch.save(losses, 'Data/losses1')
+    torch.save(wins_per_100, 'Data/wins1')
+    torch.save(avg_diffs, 'Data/avg diffs1')
+
+    epochs_np = np.array(list(range(0, epochs  -100, 100)))
+    losses_np = np.array(losses)
+    wins_per_100_np = np.array(wins_per_100)
+    avg_diffs_np = np.array(avg_diffs)
+
+    plt.plot(epochs_np, losses_np)
+    plt.title('loses')
+    plt.show()
+
+    plt.plot(epochs_np, wins_per_100_np)
+    plt.title('wins_per_1000')
+    plt.show()
+
+
+    plt.plot(epochs_np, avg_diffs_np)
+    plt.title('average difference')
+    plt.show()
 
 
 if __name__ == '__main__':

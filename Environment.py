@@ -115,10 +115,10 @@ class Environment:
         state.board[1][6] = player2_score
 
         # chcking who won
-        if player1_score > player2_score:
+        if state.diff() > 0:
             state.end_of_game = 1
         
-        elif player2_score > player1_score:
+        elif state.diff() < 0:
             state.end_of_game = 2
         
         else:

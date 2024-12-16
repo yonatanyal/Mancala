@@ -33,6 +33,7 @@ GAMMA = 0.99
 epochs = 50000
 C = 100
 BATCH_SIZE = 64
-LR = 0.1
+LR = 0.001
 path = "Data\DQN_TEST1.pth"
+file = "Data\DQN_TEST1.pth"
 
