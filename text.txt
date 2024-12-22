@@ -1,1 +1,7 @@
-1: file_name, 
+1 - "DQN_Train1.pth":
+    Model: L1 = 128, L2 = 64, output_size = 1
+    Trainig: epochs = 1000000, C = 100, BATCH_SIZE = 64, LR = 0.001
+
+2: "DQN_Train1.pth":
+    
+

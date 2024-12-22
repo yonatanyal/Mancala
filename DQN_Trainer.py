@@ -70,11 +70,14 @@ def main ():
             avg_diff = 0
             wins = 0
 
+        if epoch % 50000 == 0:
+            player1.save_param(f'Data/checkpoint{epoch//50000}')
+
 
     player1.save_param(file)
-    torch.save(losses, 'Data/losses1')
-    torch.save(wins_per_100, 'Data/wins1')
-    torch.save(avg_diffs, 'Data/avg diffs1')
+    torch.save(losses, 'Data/losses1.pth')
+    torch.save(wins_per_100, 'Data/wins1.pth')
+    torch.save(avg_diffs, 'Data/avg diffs1.pth')
 
     epochs_np = np.array(list(range(0, epochs  -100, 100)))
     losses_np = np.array(losses)
@@ -86,7 +89,7 @@ def main ():
     plt.show()
 
     plt.plot(epochs_np, wins_per_100_np)
-    plt.title('wins_per_1000')
+    plt.title('wins_per_100')
     plt.show()
 
 

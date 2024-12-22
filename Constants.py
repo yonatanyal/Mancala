@@ -29,11 +29,10 @@ layer2 = 64
 output_size = 1 # Q(s,a)
 GAMMA = 0.99
 
-#DQn Training
-epochs = 50000
+#DQN Training
+epochs = 1000000
 C = 100
 BATCH_SIZE = 64
 LR = 0.001
-path = "Data\DQN_TEST1.pth"
-file = "Data\DQN_TEST1.pth"
+file = "Data\DQN_Train1.pth"
 
