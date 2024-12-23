@@ -10,10 +10,11 @@ MSELoss = nn.MSELoss()
 class DQN(nn.Module):
     def __init__(self) -> None:
         super().__init__()
-        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        self.linear1 = nn.Linear(input_size, layer1, device=device)
-        self.linear2 = nn.Linear(layer1, layer2, device=device)
-        self.output = nn.Linear(layer2, output_size, device=device)
+        self.device = torch.device("cpu")
+        # self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self.linear1 = nn.Linear(input_size, layer1, device=self.device)
+        self.linear2 = nn.Linear(layer1, layer2, device=self.device)
+        self.output = nn.Linear(layer2, output_size, device=self.device)
         
 
     def forward(self, x):
@@ -26,7 +27,7 @@ class DQN(nn.Module):
     
 
     def load_params(self, path) -> None:
-        self.load_state_dict(torch.load(path))
+        self.load_state_dict(torch.load(path, map_location=self.device))
 
 
     def save_params(self, path) -> None:

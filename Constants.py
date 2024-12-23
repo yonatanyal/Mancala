@@ -30,7 +30,7 @@ output_size = 1 # Q(s,a)
 GAMMA = 0.99
 
 #DQN Training
-epochs = 1000000
+epochs = 800000
 C = 100
 BATCH_SIZE = 64
 LR = 0.001

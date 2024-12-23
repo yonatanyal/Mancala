@@ -12,7 +12,7 @@ import numpy as np
 
 def main ():
     env = Environment()
-    player1 = DQN_Agent(1, env ,train=True)
+    player1 = DQN_Agent(1, env , parameters_path="Data/checkpoint4",train=True)
     player2 = Random_Agent(2, env)
     replay = ReplayBuffer()
     Q = player1.DQN
@@ -75,27 +75,27 @@ def main ():
 
 
     player1.save_param(file)
-    torch.save(losses, 'Data/losses1.pth')
-    torch.save(wins_per_100, 'Data/wins1.pth')
-    torch.save(avg_diffs, 'Data/avg diffs1.pth')
+    torch.save(losses, 'Data/losses_Training1.pth')
+    torch.save(wins_per_100, 'Data/wins_Training1.pth')
+    torch.save(avg_diffs, 'Data/avg_diffs_Training1.pth')
 
-    epochs_np = np.array(list(range(0, epochs  -100, 100)))
-    losses_np = np.array(losses)
-    wins_per_100_np = np.array(wins_per_100)
-    avg_diffs_np = np.array(avg_diffs)
+    # epochs_np = np.array(list(range(0, epochs-100, 100)))
+    # losses_np = np.array(losses)
+    # wins_per_100_np = np.array(wins_per_100)
+    # avg_diffs_np = np.array(avg_diffs)
 
-    plt.plot(epochs_np, losses_np)
-    plt.title('loses')
-    plt.show()
+    # plt.plot(epochs_np, losses_np)
+    # plt.title('loses')
+    # plt.show()
 
-    plt.plot(epochs_np, wins_per_100_np)
-    plt.title('wins_per_100')
-    plt.show()
+    # plt.plot(epochs_np, wins_per_100_np)
+    # plt.title('wins_per_100')
+    # plt.show()
 
 
-    plt.plot(epochs_np, avg_diffs_np)
-    plt.title('average difference')
-    plt.show()
+    # plt.plot(epochs_np, avg_diffs_np)
+    # plt.title('average difference')
+    # plt.show()
 
 
 if __name__ == '__main__':
