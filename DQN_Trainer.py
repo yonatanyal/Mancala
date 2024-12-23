@@ -8,9 +8,25 @@ import torch
 from Constants import *
 import matplotlib.pyplot as plt
 import numpy as np
+import wandb
 
 
 def main ():
+    #init wandb
+    wandb.init(
+        project="Mancala", 
+        config = {
+            "layer1" : layer1, 
+            "layer2" : layer2, 
+            "gamma" : GAMMA ,
+            "epochs" : epochs ,
+            "C" : C, 
+            "batch_size" : BATCH_SIZE, 
+            "learning _rate" : LR
+        }
+    )
+
+    #init parameters
     env = Environment()
     player1 = DQN_Agent(1, env , parameters_path="Data/checkpoint4",train=True)
     player2 = Random_Agent(2, env)
@@ -71,7 +87,7 @@ def main ():
             wins = 0
 
         if epoch % 50000 == 0:
-            player1.save_param(f'Data/checkpoint{epoch//50000}')
+            player1.save_param(f'Data/checkpoint')
 
 
     player1.save_param(file)
@@ -85,7 +101,7 @@ def main ():
     # avg_diffs_np = np.array(avg_diffs)
 
     # plt.plot(epochs_np, losses_np)
-    # plt.title('loses')
+    # plt.title('losses')
     # plt.show()
 
     # plt.plot(epochs_np, wins_per_100_np)
@@ -100,3 +116,4 @@ def main ():
 
 if __name__ == '__main__':
     main()
+

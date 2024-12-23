@@ -77,7 +77,7 @@ class Environment:
             state.board[curr_pit] = 0
         
         if self.end_of_game(state):
-            diff = state.board[0][0] - state.board[1][6]
+            diff = state.diff()
             reward += 10*diff
         self.switch_players(state)
 
