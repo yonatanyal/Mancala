@@ -1,3 +1,6 @@
+import torch
+
+
 #FPS
 FPS = 60
 
@@ -34,5 +37,8 @@ epochs = 800000
 C = 100
 BATCH_SIZE = 64
 LR = 0.001
-file = "Data\DQN_Train1.pth"
+file = "Data\DQN_Model1.pth"
 
+#Device
+device = torch.device("cpu")
+# device = torch.device("cuda" if torch.cuda.is_available() else "cpu")

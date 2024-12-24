@@ -9,60 +9,86 @@ from Constants import *
 import matplotlib.pyplot as plt
 import numpy as np
 import wandb
+import os
 
 
 def main ():
-    #init wandb
-    wandb.init(
-        project="Mancala", 
-        config = {
-            "layer1" : layer1, 
-            "layer2" : layer2, 
-            "gamma" : GAMMA ,
-            "epochs" : epochs ,
-            "C" : C, 
-            "batch_size" : BATCH_SIZE, 
-            "learning _rate" : LR
-        }
-    )
-
-    #init parameters
+    # init model
     env = Environment()
     player1 = DQN_Agent(1, env , parameters_path="Data/checkpoint4",train=True)
     player2 = Random_Agent(2, env)
-    replay = ReplayBuffer()
-    Q = player1.DQN
-    Q_hat :DQN = Q.copy()
+    buffer = ReplayBuffer()
+    Q_hat :DQN = player1.DQN.copy()
     Q_hat.train = False
-    optim = torch.optim.Adam(Q.parameters(), lr=LR)
+    optim = torch.optim.Adam(player1.DQN.parameters(), lr=LR)
 
-    avg_diff = 0
-    wins = 0
-    losses = []
-    avg_diffs = []
-    wins_per_100 = []
-       
-    for epoch in range(epochs):
+    # init log params
+    avg_diffs, wins_per_10, defeats_per_10 = [], [], []
+    avg_diff, wins, defeats = 0, 0 ,0
+    
+    # Load checkpoint
+    run_id = 1
+    checkpoint_path = f'Data/checkpoint{run_id}'
+    if os.path.exists(checkpoint_path):
+        checkpoint = torch.load(checkpoint_path)
+        start_epoch = checkpoint['epoch'] + 1
+        player1.DQN.load_state_dict(checkpoint['model_state_dict'])
+        Q_hat.load_state_dict(checkpoint['model_state_dict'])
+        optim.load_state_dict(checkpoint['optimizer_state_dict'])
+        losses = checkpoint['loss']
+        avg_diffs = checkpoint['avg_diff']
+        wins_per_10 = checkpoint['wins']
+        defeats_per_10 = checkpoint['defeats']
+        buffer = checkpoint['buffer']
+
+    Q = player1.DQN
+
+    # init wandb
+    wandb.init(
+        project="Mancala",
+        id=f'Mancala {run_id}',
+        config={
+            "name": f'Mancala {run_id}',
+            "checkpoint": checkpoint_path,
+            "learning_rate": LR,
+            "epochs": epochs,
+            "start_epoch": start_epoch,
+            "decay": epsiln_decay,
+            "gamma": 0.99,
+            "batch_size": BATCH_SIZE, 
+            "C": C,
+            "Model":str(player1.DQN),
+            "device": str(device)
+        })    
+
+    ######################################
+
+    for epoch in range(start_epoch, epochs):
+        # Sample Environement
         state = State()
         while not env.end_of_game(state):
             action = player1.get_action(state, epoch=epoch)
             after_state, reward = env.move(state, action)
             if env.end_of_game(after_state):
-                replay.push(state, action, reward, after_state, env.end_of_game(next_state))
-                avg_diff += after_state.diff()
-                if after_state.diff() > 0:
-                    wins+=1
+                buffer.push(state, action, reward, after_state, env.end_of_game(next_state))
+                diff = after_state.diff()
+                avg_diff += diff
+                if diff > 0:
+                    wins += 1
+                elif diff < 0:
+                    defeats += 1
                 break
             
             after_action = player2.get_action(state=after_state)
             next_state, reward = env.move(after_state, after_action)
-            replay.push(state, action, reward, next_state, env.end_of_game(next_state))
+            buffer.push(state, action, reward, next_state, env.end_of_game(next_state))
             state = next_state
             
-        if len(replay) < BATCH_SIZE:
+        if len(buffer) < BATCH_SIZE:
             continue
 
-        states, actions, rewards, next_states, dones = replay.sample(BATCH_SIZE)
+        # Training
+        states, actions, rewards, next_states, dones = buffer.sample(BATCH_SIZE)
         Q_values = Q(states, actions)
         next_actions = player1.get_actions(next_states, dones)
         with torch.no_grad():
@@ -76,42 +102,44 @@ def main ():
         if epoch % C == 0:
             Q_hat.load_state_dict(Q.state_dict())
     
-        if epoch % 100 == 0:
-            avg_diff /= 100
-            losses.append(loss.item())
-            wins_per_100.append(wins)
-            avg_diffs.append(avg_diff)
+        if (epoch + 1) % 10 == 0:
+            # print params
+            avg_diff /= 10
             print(f'epoch: {epoch}, loss: {loss.item():.2f}, wins per 100: {wins}, avg piece diff: {avg_diff}')
+
+            # append params
+            avg_diffs.append(avg_diff)
+            wins_per_10.append(wins)
+            defeats_per_10.append(losses)
+
+            # log metrics to wandb
+            wandb.log({
+                "Wins Per 10 Games": wins,
+                "Defeats Per 10 Games": defeats,
+                "Loss": loss,
+                "Average Piece Difference Per 10 Games" : avg_diff
+            })
 
             avg_diff = 0
             wins = 0
+            defeats = 0
 
-        if epoch % 50000 == 0:
-            player1.save_param(f'Data/checkpoint')
-
+        # create checkpoint
+        if epoch % 10000 == 0:
+            checkpoint = {
+                'epoch': epoch,
+                'model_state_dict': player1.DQN.state_dict(),
+                'optimizer_state_dict': optim.state_dict(),
+                'loss': losses,
+                'avg_diff':avg_diffs,
+                'wins': wins_per_10,
+                'defeats': defeats_per_10
+            }
+            torch.save(checkpoint, checkpoint_path)
 
     player1.save_param(file)
-    torch.save(losses, 'Data/losses_Training1.pth')
-    torch.save(wins_per_100, 'Data/wins_Training1.pth')
-    torch.save(avg_diffs, 'Data/avg_diffs_Training1.pth')
 
-    # epochs_np = np.array(list(range(0, epochs-100, 100)))
-    # losses_np = np.array(losses)
-    # wins_per_100_np = np.array(wins_per_100)
-    # avg_diffs_np = np.array(avg_diffs)
-
-    # plt.plot(epochs_np, losses_np)
-    # plt.title('losses')
-    # plt.show()
-
-    # plt.plot(epochs_np, wins_per_100_np)
-    # plt.title('wins_per_100')
-    # plt.show()
-
-
-    # plt.plot(epochs_np, avg_diffs_np)
-    # plt.title('average difference')
-    # plt.show()
+    wandb.finish()
 
 
 if __name__ == '__main__':
