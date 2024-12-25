@@ -1,6 +1,7 @@
 1 - "DQN_Train1.pth":
     Model: L1 = 128, L2 = 64, output_size = 1
     Trainig: epochs = 1000000, C = 100, BATCH_SIZE = 64, LR = 0.001
+    epsilon greedy: epsilon_start = 1, epsilon_final = 0.01, epsilon_decay = 500
 
 2: "DQN_Train1.pth":
     

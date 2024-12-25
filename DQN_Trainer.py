@@ -15,7 +15,7 @@ import os
 def main ():
     # init model
     env = Environment()
-    player1 = DQN_Agent(1, env , parameters_path="Data/checkpoint4",train=True)
+    player1 = DQN_Agent(1, env , train=True)
     player2 = Random_Agent(2, env)
     buffer = ReplayBuffer()
     Q_hat :DQN = player1.DQN.copy()
@@ -23,8 +23,9 @@ def main ():
     optim = torch.optim.Adam(player1.DQN.parameters(), lr=LR)
 
     # init log params
-    avg_diffs, wins_per_10, defeats_per_10 = [], [], []
+    losses, avg_diffs, wins_per_10, defeats_per_10 = [], [], [], []
     avg_diff, wins, defeats = 0, 0 ,0
+    start_epoch = 0
     
     # Load checkpoint
     run_id = 1
@@ -53,11 +54,11 @@ def main ():
             "learning_rate": LR,
             "epochs": epochs,
             "start_epoch": start_epoch,
-            "decay": epsiln_decay,
+            "decay": epsilon_decay,
             "gamma": 0.99,
             "batch_size": BATCH_SIZE, 
             "C": C,
-            "Model":str(player1.DQN),
+            "Model": str(player1.DQN),
             "device": str(device)
         })    
 
@@ -105,7 +106,7 @@ def main ():
         if (epoch + 1) % 10 == 0:
             # print params
             avg_diff /= 10
-            print(f'epoch: {epoch}, loss: {loss.item():.2f}, wins per 100: {wins}, avg piece diff: {avg_diff}')
+            print(f'epoch: {epoch}, loss: {loss.item():.2f}, wins per 10: {wins}, avg piece diff: {avg_diff}')
 
             # append params
             avg_diffs.append(avg_diff)
@@ -131,7 +132,7 @@ def main ():
                 'model_state_dict': player1.DQN.state_dict(),
                 'optimizer_state_dict': optim.state_dict(),
                 'loss': losses,
-                'avg_diff':avg_diffs,
+                'avg_diff': avg_diffs,
                 'wins': wins_per_10,
                 'defeats': defeats_per_10
             }

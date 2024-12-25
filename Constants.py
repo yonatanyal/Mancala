@@ -23,7 +23,7 @@ ANTIQUE_WHITE = (250, 235, 215)
 #epsilon Greedy
 epsilon_start = 1
 epsilon_final = 0.01
-epsiln_decay = 5000
+epsilon_decay = 5000
 
 #DQN Params
 input_size = 16 # state: board = 2 * 7 + action 1 * 2
@@ -33,7 +33,7 @@ output_size = 1 # Q(s,a)
 GAMMA = 0.99
 
 #DQN Training
-epochs = 800000
+epochs = 200000
 C = 100
 BATCH_SIZE = 64
 LR = 0.001
