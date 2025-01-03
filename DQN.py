@@ -6,7 +6,6 @@ from Constants import *
 
 
 MSELoss = nn.MSELoss()
-
 class DQN(nn.Module):
     def __init__(self) -> None:
         super().__init__()

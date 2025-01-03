@@ -48,7 +48,11 @@ class Environment:
                 if (player == 1 and curr_pit != (1,6)) or (player == 2 and curr_pit != (0,0)):
                     state.board[curr_pit] += 1
                     stones_left -= 1
-                    reward += 1 if player == 1 else -1
+                    # Rewarding player
+                    if curr_pit == (0,0):
+                        reward += 1
+                    elif curr_pit == (1,6):
+                        reward += -1
 
                 if curr_pit == (0,0) or curr_pit == (1,6):
                     col = pit_col + step
@@ -58,12 +62,12 @@ class Environment:
             row += step
             stones = stones_left
         
-        #checking for extra turn
+        # Checking for extra turn
         if (player == 1 and curr_pit == (0,0)) or (player == 2 and curr_pit == (1,6)): 
             state.extra_turn = True
             reward += 1
         
-        #checking if the last stone landed on an empty pit
+        # Checking if the last stone landed on an empty pit
         elif player == 1 and state.board[curr_pit] == 1 and curr_pit[0] == 0 and state.board[1][curr_pit[1] - 1] != 0:
             added = state.board[1][curr_pit[1] - 1] + 1
             state.board[0][0] += added
@@ -81,6 +85,7 @@ class Environment:
             reward += 10*diff
         self.switch_players(state)
 
+        # Returning reward and next state
         return state, reward
 
 
@@ -103,18 +108,18 @@ class Environment:
         player1_score = board[0][0]
         player2_score = board[1][6]
 
-        # checking if the game has ended
+        # Checking if the game has ended
         if row1_sum != 0 and row2_sum != 0:
             return 0
         
-        # updating score and board
+        # Updating score and board
         player1_score += row2_sum   
         player2_score += row1_sum  
         state.board = np.zeros((ROWS,COLS), dtype=int)
         state.board[0][0] = player1_score
         state.board[1][6] = player2_score
 
-        # chcking who won
+        # Chcking the game result
         if state.diff() > 0:
             state.end_of_game = 1
         

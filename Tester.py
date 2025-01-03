@@ -51,7 +51,7 @@ class Tester:
 
 if __name__ == '__main__':
     env = Environment(State())
-    player1 = DQN_Agent(1, env, parameters_path='Data/DQN_Train1.pth', test=True)
+    player1 = DQN_Agent(1, env, parameters_path=file, test=True)
     # player1 = Random_Agent(1, env)
     player2 = Random_Agent(2, env)
     tester = Tester(env,player1, player2)

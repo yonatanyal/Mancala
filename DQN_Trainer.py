@@ -13,6 +13,7 @@ import os
 
 
 def main ():
+    ''' Preparing Data '''
     # init model
     env = Environment()
     player1 = DQN_Agent(1, env , train=True)
@@ -40,7 +41,6 @@ def main ():
         avg_diffs = checkpoint['avg_diff']
         wins_per_10 = checkpoint['wins']
         defeats_per_10 = checkpoint['defeats']
-        buffer = checkpoint['buffer']
 
     Q = player1.DQN
 
@@ -62,8 +62,7 @@ def main ():
             "device": str(device)
         })    
 
-    ######################################
-
+    ''' Training '''
     for epoch in range(start_epoch, epochs):
         # Sample Environement
         state = State()

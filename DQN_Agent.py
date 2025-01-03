@@ -12,9 +12,6 @@ from Helper import epsilon_greedy
 import time
 
 
-MSELoss = nn.MSELoss()
-
-
 class DQN_Agent(Agent):
     def __init__(self, player: int, env: Environment, parameters_path = None, train = False, test = False) -> None:
         super().__init__(player, env)
@@ -43,7 +40,7 @@ class DQN_Agent(Agent):
         action_np = np.array(actions, dtype=np.float32)
         action_tensor = torch.from_numpy(action_np)
         expand_state_tensor = state_tensor.unsqueeze(0).repeat((len(action_tensor),1))
-        # state_action = torch.cat((expand_state_tensor, action_tensor ), dim=1)
+
         with torch.no_grad():
             Q_values = self.DQN(expand_state_tensor, action_tensor)
         max_action = torch.argmax(Q_values)
