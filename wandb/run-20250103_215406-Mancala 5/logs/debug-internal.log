@@ -1,0 +1,17 @@
+{"time":"2025-01-03T21:54:06.3229085+02:00","level":"INFO","msg":"using version","core version":"0.19.1"}
+{"time":"2025-01-03T21:54:06.3229085+02:00","level":"INFO","msg":"created symlink","path":"C:\\yonatan\\school\\AI\\AI project\\Mancala\\wandb\\run-20250103_215406-Mancala 5\\logs\\debug-core.log"}
+{"time":"2025-01-03T21:54:06.4574019+02:00","level":"INFO","msg":"created new stream","id":"Mancala 5"}
+{"time":"2025-01-03T21:54:06.4574019+02:00","level":"INFO","msg":"stream: started","id":"Mancala 5"}
+{"time":"2025-01-03T21:54:06.4574019+02:00","level":"INFO","msg":"handler: started","stream_id":"Mancala 5"}
+{"time":"2025-01-03T21:54:06.4574019+02:00","level":"INFO","msg":"sender: started","stream_id":"Mancala 5"}
+{"time":"2025-01-03T21:54:06.4574019+02:00","level":"INFO","msg":"writer: Do: started","stream_id":"Mancala 5"}
+{"time":"2025-01-03T21:54:06.8091393+02:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-01-03T22:49:06.7473073+02:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-01-03T22:49:06.7559183+02:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-01-03T22:49:07.7503664+02:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"uploading wandb-summary.json","runtime_seconds":0.549174},{"desc":"uploading config.yaml","runtime_seconds":0.3495139},{"desc":"uploading output.log","runtime_seconds":0.3495139},{"desc":"uploading history steps 19897-19999, summary, console lines 19897-19999","runtime_seconds":0.274803}],"total_operations":4}}
+{"time":"2025-01-03T22:49:09.186221+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-01-03T22:49:10.5278694+02:00","level":"INFO","msg":"stream: closing","id":"Mancala 5"}
+{"time":"2025-01-03T22:49:10.5278694+02:00","level":"INFO","msg":"handler: closed","stream_id":"Mancala 5"}
+{"time":"2025-01-03T22:49:10.5278694+02:00","level":"INFO","msg":"writer: Close: closed","stream_id":"Mancala 5"}
+{"time":"2025-01-03T22:49:10.5284269+02:00","level":"INFO","msg":"sender: closed","stream_id":"Mancala 5"}
+{"time":"2025-01-03T22:49:10.5284269+02:00","level":"INFO","msg":"stream: closed","id":"Mancala 5"}

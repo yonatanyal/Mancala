@@ -23,15 +23,16 @@ def main ():
     Q_hat.train = False
     optim = torch.optim.Adam(player1.DQN.parameters(), lr=LR)
 
-    # init log params
+    # init metrics
     losses, avg_diffs, wins_per_10, defeats_per_10 = [], [], [], []
     avg_diff, wins, defeats = 0, 0 ,0
     start_epoch = 0
     
     # Load checkpoint
     resume_wandb = False
-    run_id = 2
-    checkpoint_path = f'Data/checkpoint{run_id}'
+    run_id = 5
+    checkpoint_path = f'Data/checkpoint{run_id}.pth'
+    file = f"Data\DQN_Model{run_id}.pth"
     if os.path.exists(checkpoint_path):
         resume_wandb = True
         checkpoint = torch.load(checkpoint_path)
@@ -67,19 +68,14 @@ def main ():
     
     ''' Training '''
     for epoch in range(start_epoch, epochs):
-        # Sample Environement
+        # Sample Environment
         state = State()
         while not env.is_end_of_game(state):
             action = player1.get_action(state, epoch=epoch)
             after_state, reward = env.move(state, action)
             if env.is_end_of_game(after_state):
                 buffer.push(state, action, reward, after_state, env.end_of_game(next_state))
-                diff = after_state.diff()
-                avg_diff += diff
-                if diff > 0:
-                    wins += 1
-                elif diff < 0:
-                    defeats += 1
+                state = after_state
                 break
             
             after_action = player2.get_action(state=after_state)
@@ -87,7 +83,16 @@ def main ():
             reward += next_reward
             buffer.push(state, action, reward, next_state, env.end_of_game(next_state))
             state = next_state
-            
+
+        # update metrics
+        diff = state.diff()
+        avg_diff += diff
+        if diff > 0:
+            wins += 1
+        elif diff < 0:
+            defeats += 1   
+
+        #
         if len(buffer) < BATCH_SIZE:
             continue
 

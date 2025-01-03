@@ -50,7 +50,6 @@ class Environment:
                     state.board[curr_pit] += 1
                     stones_left -= 1
 
-
                 if curr_pit == (0,0) or curr_pit == (1,6):
                     col = pit_col + step
                     break
@@ -62,7 +61,7 @@ class Environment:
         # Checking for extra turn
         if (player == 1 and curr_pit == (0,0)) or (player == 2 and curr_pit == (1,6)): 
             state.extra_turn = True
-            reward += 1 if player == 1 else -1 # Reward player
+            reward += 1 if player == 1 else -1 # Rewarding player
         
         # Checking if the last stone landed on an empty pit
         elif player == 1 and state.board[curr_pit] == 1 and curr_pit[0] == 0 and state.board[1][curr_pit[1] - 1] != 0:
@@ -77,16 +76,18 @@ class Environment:
             state.board[0][curr_pit[1] + 1] = 0
             state.board[curr_pit] = 0
 
-        # Rewarding player
-        curr_p1_score, curr_p2_score = state.board[0][0], state.board[1][6]
-        reward += curr_p1_score - prev_p1_score if player == 1 else curr_p2_score - prev_p2_score
-        
         if self.end_of_game(state):
             diff = state.diff()
-            reward += 10*diff
+            reward += 10 * diff # Rewarding player
+
+        # Rewarding player
+        curr_p1_score, curr_p2_score = state.board[0][0], state.board[1][6]
+        reward += curr_p1_score - prev_p1_score if player == 1 else prev_p2_score - curr_p2_score
+        
+        #switching players
         self.switch_players(state)
 
-        # Returning reward and next state
+        # Returning next state and reward 
         return state, reward
 
 
@@ -106,21 +107,20 @@ class Environment:
         board = state.board
         row1_sum = np.sum(board[0]) - board[0, 0]
         row2_sum = np.sum(board[1]) - board[1, 6]
-        player1_score = board[0][0]
-        player2_score = board[1][6]
 
         # Checking if the game has ended
         if row1_sum != 0 and row2_sum != 0:
             return 0
         
         # Updating score and board
-        player1_score += row2_sum   
-        player2_score += row1_sum  
+        player1_score = board[0][0] + row2_sum
+        player2_score = board[1][6] + row1_sum
+        
         state.board = np.zeros((ROWS,COLS), dtype=int)
         state.board[0][0] = player1_score
         state.board[1][6] = player2_score
 
-        # Chcking the game result
+        # Checking the game result
         if state.diff() > 0:
             state.end_of_game = 1
         

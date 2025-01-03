@@ -35,7 +35,7 @@ class State:
         return State(board, player)
     
 
-    def diff(self):
+    def diff(self) -> int:
         return self.board[0][0] - self.board[1][6]
     
 

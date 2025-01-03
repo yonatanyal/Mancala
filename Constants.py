@@ -33,11 +33,10 @@ output_size = 1 # Q(s,a)
 GAMMA = 0.99
 
 #DQN Training
-epochs = 200000
+epochs = 800000
 C = 200
 BATCH_SIZE = 64
 LR = 0.001
-file = "Data\DQN_Model2.pth"
 
 #Device
 device = torch.device("cpu")

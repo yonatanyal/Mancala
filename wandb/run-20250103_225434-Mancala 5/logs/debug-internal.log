@@ -1,0 +1,8 @@
+{"time":"2025-01-03T22:54:34.7438675+02:00","level":"INFO","msg":"using version","core version":"0.19.1"}
+{"time":"2025-01-03T22:54:34.7438675+02:00","level":"INFO","msg":"created symlink","path":"C:\\yonatan\\school\\AI\\AI project\\Mancala\\wandb\\run-20250103_225434-Mancala 5\\logs\\debug-core.log"}
+{"time":"2025-01-03T22:54:34.8862614+02:00","level":"INFO","msg":"created new stream","id":"Mancala 5"}
+{"time":"2025-01-03T22:54:34.8862614+02:00","level":"INFO","msg":"handler: started","stream_id":"Mancala 5"}
+{"time":"2025-01-03T22:54:34.8862614+02:00","level":"INFO","msg":"stream: started","id":"Mancala 5"}
+{"time":"2025-01-03T22:54:34.8862614+02:00","level":"INFO","msg":"writer: Do: started","stream_id":"Mancala 5"}
+{"time":"2025-01-03T22:54:34.8862614+02:00","level":"INFO","msg":"sender: started","stream_id":"Mancala 5"}
+{"time":"2025-01-03T22:54:35.4978811+02:00","level":"INFO","msg":"Starting system monitor"}
