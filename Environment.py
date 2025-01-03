@@ -120,11 +120,11 @@ class Environment:
         state.board[0][0] = player1_score
         state.board[1][6] = player2_score
 
-        # Checking the game result
-        if state.diff() > 0:
+        # Checking the game's result
+        if player1_score > player2_score:
             state.end_of_game = 1
         
-        elif state.diff() < 0:
+        elif player2_score < player1_score:
             state.end_of_game = 2
         
         else:

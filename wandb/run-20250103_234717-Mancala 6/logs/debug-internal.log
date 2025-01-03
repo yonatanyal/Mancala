@@ -1,0 +1,18 @@
+{"time":"2025-01-03T23:47:17.3484497+02:00","level":"INFO","msg":"using version","core version":"0.19.1"}
+{"time":"2025-01-03T23:47:17.3489754+02:00","level":"INFO","msg":"created symlink","path":"C:\\yonatan\\school\\AI\\AI project\\Mancala\\wandb\\run-20250103_234717-Mancala 6\\logs\\debug-core.log"}
+{"time":"2025-01-03T23:47:17.490726+02:00","level":"INFO","msg":"created new stream","id":"Mancala 6"}
+{"time":"2025-01-03T23:47:17.490726+02:00","level":"INFO","msg":"stream: started","id":"Mancala 6"}
+{"time":"2025-01-03T23:47:17.490726+02:00","level":"INFO","msg":"handler: started","stream_id":"Mancala 6"}
+{"time":"2025-01-03T23:47:17.490726+02:00","level":"INFO","msg":"writer: Do: started","stream_id":"Mancala 6"}
+{"time":"2025-01-03T23:47:17.490726+02:00","level":"INFO","msg":"sender: started","stream_id":"Mancala 6"}
+{"time":"2025-01-03T23:47:17.8286277+02:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-01-04T00:43:33.8839558+02:00","level":"INFO","msg":"api: retrying HTTP error","status":502,"url":"https://api.wandb.ai/files/yonatanyal-/Mancala/Mancala%206/file_stream","body":"\n<html><head>\n<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\">\n<title>502 Server Error</title>\n</head>\n<body text=#000000 bgcolor=#ffffff>\n<h1>Error: Server Error</h1>\n<h2>The server encountered a temporary error and could not complete your request.<p>Please try again in 30 seconds.</h2>\n<h2></h2>\n</body></html>\n"}
+{"time":"2025-01-04T01:00:12.8968174+02:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-01-04T01:00:12.9049948+02:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-01-04T01:00:13.9077651+02:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"uploading config.yaml","runtime_seconds":0.3269172,"progress":"1.0KB/1.0KB"},{"desc":"uploading output.log","runtime_seconds":0.3275023,"progress":"1.1MB/2.2MB"}],"total_operations":2}}
+{"time":"2025-01-04T01:00:15.2123531+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-01-04T01:00:16.5773639+02:00","level":"INFO","msg":"stream: closing","id":"Mancala 6"}
+{"time":"2025-01-04T01:00:16.5778798+02:00","level":"INFO","msg":"handler: closed","stream_id":"Mancala 6"}
+{"time":"2025-01-04T01:00:16.5778798+02:00","level":"INFO","msg":"sender: closed","stream_id":"Mancala 6"}
+{"time":"2025-01-04T01:00:16.5778798+02:00","level":"INFO","msg":"writer: Close: closed","stream_id":"Mancala 6"}
+{"time":"2025-01-04T01:00:16.578411+02:00","level":"INFO","msg":"stream: closed","id":"Mancala 6"}

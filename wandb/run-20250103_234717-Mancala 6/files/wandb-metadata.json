@@ -1,0 +1,42 @@
+{
+  "os": "Windows-11-10.0.26100-SP0",
+  "python": "CPython 3.12.8",
+  "startedAt": "2025-01-03T21:47:17.344616Z",
+  "program": "c:\\yonatan\\school\\AI\\AI project\\Mancala\\DQN_Trainer.py",
+  "codePath": "DQN_Trainer.py",
+  "git": {
+    "remote": "https://github.com/yonatanyal/Mancala.git",
+    "commit": "e01a4031b2cd0a43dbbba142eec5c21a4395d50b"
+  },
+  "email": "yoyalov@gmail.com",
+  "root": "C:\\yonatan\\school\\AI\\AI project\\Mancala",
+  "host": "DESKTOP-NQD1NP7",
+  "executable": "C:\\Users\\yoyal\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+  "codePathLocal": "DQN_Trainer.py",
+  "cpu_count": 4,
+  "cpu_count_logical": 8,
+  "gpu": "NVIDIA GeForce MX230",
+  "gpu_count": 1,
+  "disk": {
+    "/": {
+      "total": "491576619008",
+      "used": "226001125376"
+    }
+  },
+  "memory": {
+    "total": "8345964544"
+  },
+  "cpu": {
+    "count": 4,
+    "countLogical": 8
+  },
+  "gpu_nvidia": [
+    {
+      "name": "NVIDIA GeForce MX230",
+      "memoryTotal": "2147483648",
+      "cudaCores": 256,
+      "architecture": "Pascal"
+    }
+  ],
+  "cudaVersion": "12.6"
+}

@@ -6,8 +6,6 @@ from ReplayBuffer import ReplayBuffer
 from State import State
 import torch 
 from Constants import *
-import matplotlib.pyplot as plt
-import numpy as np
 import wandb
 import os
 
@@ -30,7 +28,7 @@ def main ():
     
     # Load checkpoint
     resume_wandb = False
-    run_id = 5
+    run_id = 6
     checkpoint_path = f'Data/checkpoint{run_id}.pth'
     file = f"Data\DQN_Model{run_id}.pth"
     if os.path.exists(checkpoint_path):
@@ -92,8 +90,8 @@ def main ():
         elif diff < 0:
             defeats += 1   
 
-        #
-        if len(buffer) < BATCH_SIZE:
+        # Checking if the buffer's length is greater than the minimum
+        if len(buffer) < 5000:
             continue
 
         # Training
@@ -112,9 +110,9 @@ def main ():
             Q_hat.load_state_dict(Q.state_dict())
     
         if (epoch + 1) % 10 == 0:
-            # print params
+            # print metrics
             avg_diff /= 10
-            print(f'epoch: {epoch}, loss: {loss.item():.2f}, wins per 10: {wins}, avg piece diff: {avg_diff}')
+            print(f'epoch: {epoch}, loss: {loss.item():.2f}, wins per 10 games: {wins}, avg piece difference: {avg_diff}')
 
             # append params
             avg_diffs.append(avg_diff)
