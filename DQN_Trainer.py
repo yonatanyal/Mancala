@@ -29,9 +29,11 @@ def main ():
     start_epoch = 0
     
     # Load checkpoint
-    run_id = 1
+    resume_wandb = False
+    run_id = 2
     checkpoint_path = f'Data/checkpoint{run_id}'
     if os.path.exists(checkpoint_path):
+        resume_wandb = True
         checkpoint = torch.load(checkpoint_path)
         start_epoch = checkpoint['epoch'] + 1
         player1.DQN.load_state_dict(checkpoint['model_state_dict'])
@@ -47,6 +49,7 @@ def main ():
     # init wandb
     wandb.init(
         project="Mancala",
+        resume=resume_wandb,
         id=f'Mancala {run_id}',
         config={
             "name": f'Mancala {run_id}',
@@ -55,21 +58,21 @@ def main ():
             "epochs": epochs,
             "start_epoch": start_epoch,
             "decay": epsilon_decay,
-            "gamma": 0.99,
+            "gamma": GAMMA,
             "batch_size": BATCH_SIZE, 
             "C": C,
             "Model": str(player1.DQN),
             "device": str(device)
-        })    
-
+        })
+    
     ''' Training '''
     for epoch in range(start_epoch, epochs):
         # Sample Environement
         state = State()
-        while not env.end_of_game(state):
+        while not env.is_end_of_game(state):
             action = player1.get_action(state, epoch=epoch)
             after_state, reward = env.move(state, action)
-            if env.end_of_game(after_state):
+            if env.is_end_of_game(after_state):
                 buffer.push(state, action, reward, after_state, env.end_of_game(next_state))
                 diff = after_state.diff()
                 avg_diff += diff
@@ -80,7 +83,8 @@ def main ():
                 break
             
             after_action = player2.get_action(state=after_state)
-            next_state, reward = env.move(after_state, after_action)
+            next_state, next_reward = env.move(after_state, after_action)
+            reward += next_reward
             buffer.push(state, action, reward, next_state, env.end_of_game(next_state))
             state = next_state
             

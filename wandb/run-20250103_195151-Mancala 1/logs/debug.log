@@ -1,0 +1,26 @@
+2025-01-03 19:51:51,797 INFO    MainThread:26532 [wandb_setup.py:_flush():68] Current SDK version is 0.19.1
+2025-01-03 19:51:51,797 INFO    MainThread:26532 [wandb_setup.py:_flush():68] Configure stats pid to 26532
+2025-01-03 19:51:51,797 INFO    MainThread:26532 [wandb_setup.py:_flush():68] Loading settings from C:\Users\yoyal\.config\wandb\settings
+2025-01-03 19:51:51,797 INFO    MainThread:26532 [wandb_setup.py:_flush():68] Loading settings from C:\yonatan\school\AI\AI project\Mancala\wandb\settings
+2025-01-03 19:51:51,797 INFO    MainThread:26532 [wandb_setup.py:_flush():68] Loading settings from environment variables
+2025-01-03 19:51:51,797 INFO    MainThread:26532 [wandb_init.py:_log_setup():528] Logging user logs to C:\yonatan\school\AI\AI project\Mancala\wandb\run-20250103_195151-Mancala 1\logs\debug.log
+2025-01-03 19:51:51,799 INFO    MainThread:26532 [wandb_init.py:_log_setup():529] Logging internal logs to C:\yonatan\school\AI\AI project\Mancala\wandb\run-20250103_195151-Mancala 1\logs\debug-internal.log
+2025-01-03 19:51:51,799 INFO    MainThread:26532 [wandb_init.py:init():644] calling init triggers
+2025-01-03 19:51:51,799 INFO    MainThread:26532 [wandb_init.py:init():650] wandb.init called with sweep_config: {}
+config: {'name': 'Mancala 1', 'checkpoint': 'Data/checkpoint1', 'learning_rate': 0.001, 'epochs': 200000, 'start_epoch': 0, 'decay': 5000, 'gamma': 0.99, 'batch_size': 64, 'C': 200, 'Model': 'DQN(\n  (linear1): Linear(in_features=16, out_features=128, bias=True)\n  (linear2): Linear(in_features=128, out_features=64, bias=True)\n  (output): Linear(in_features=64, out_features=1, bias=True)\n)', 'device': 'cpu'}
+2025-01-03 19:51:51,799 INFO    MainThread:26532 [wandb_init.py:init():680] starting backend
+2025-01-03 19:51:51,799 INFO    MainThread:26532 [wandb_init.py:init():684] sending inform_init request
+2025-01-03 19:51:51,867 INFO    MainThread:26532 [backend.py:_multiprocessing_setup():104] multiprocessing start_methods=spawn, using: spawn
+2025-01-03 19:51:51,868 INFO    MainThread:26532 [wandb_init.py:init():697] backend started and connected
+2025-01-03 19:51:51,869 INFO    MainThread:26532 [wandb_init.py:init():790] updated telemetry
+2025-01-03 19:51:51,928 INFO    MainThread:26532 [wandb_init.py:init():822] communicating run to backend with 120.0 second timeout
+2025-01-03 19:53:52,817 ERROR   MainThread:26532 [wandb_init.py:init():849] encountered error: Run initialization has timed out after 120.0 sec. Please try increasing the timeout with the `init_timeout` setting: `wandb.init(settings=wandb.Settings(init_timeout=120))`.
+2025-01-03 19:53:52,817 ERROR   MainThread:26532 [wandb_init.py:init():1308] error in wandb.init()
+Traceback (most recent call last):
+  File "C:\Users\yoyal\AppData\Local\Programs\Python\Python312\Lib\site-packages\wandb\sdk\wandb_init.py", line 1298, in init
+    return wi.init()
+           ^^^^^^^^^
+  File "C:\Users\yoyal\AppData\Local\Programs\Python\Python312\Lib\site-packages\wandb\sdk\wandb_init.py", line 855, in init
+    raise error
+wandb.errors.errors.CommError: Run initialization has timed out after 120.0 sec. Please try increasing the timeout with the `init_timeout` setting: `wandb.init(settings=wandb.Settings(init_timeout=120))`.
+2025-01-03 19:53:52,832 WARNING MsgRouterThr:26532 [router.py:message_loop():75] message_loop has been closed

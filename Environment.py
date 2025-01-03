@@ -39,8 +39,9 @@ class Environment:
         stones = state.board[action]; stones_left = stones
         state.board[action] = 0
         step = -1 if player == 1 else 1
-
+        prev_p1_score, prev_p2_score = state.board[0][0], state.board[1][6]
         reward = 0
+
         while stones_left > 0:
             for pit_col in range(col + step, col + (stones + 1) * step, step):
                 curr_pit = (row, pit_col)
@@ -48,11 +49,7 @@ class Environment:
                 if (player == 1 and curr_pit != (1,6)) or (player == 2 and curr_pit != (0,0)):
                     state.board[curr_pit] += 1
                     stones_left -= 1
-                    # Rewarding player
-                    if curr_pit == (0,0):
-                        reward += 1
-                    elif curr_pit == (1,6):
-                        reward += -1
+
 
                 if curr_pit == (0,0) or curr_pit == (1,6):
                     col = pit_col + step
@@ -65,7 +62,7 @@ class Environment:
         # Checking for extra turn
         if (player == 1 and curr_pit == (0,0)) or (player == 2 and curr_pit == (1,6)): 
             state.extra_turn = True
-            reward += 1
+            reward += 1 if player == 1 else -1 # Reward player
         
         # Checking if the last stone landed on an empty pit
         elif player == 1 and state.board[curr_pit] == 1 and curr_pit[0] == 0 and state.board[1][curr_pit[1] - 1] != 0:
@@ -79,6 +76,10 @@ class Environment:
             state.board[1][6] += added
             state.board[0][curr_pit[1] + 1] = 0
             state.board[curr_pit] = 0
+
+        # Rewarding player
+        curr_p1_score, curr_p2_score = state.board[0][0], state.board[1][6]
+        reward += curr_p1_score - prev_p1_score if player == 1 else curr_p2_score - prev_p2_score
         
         if self.end_of_game(state):
             diff = state.diff()

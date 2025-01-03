@@ -48,12 +48,15 @@ class DQN_Agent(Agent):
 
 
     def get_actions(self, states: torch.Tensor, dones: torch.Tensor) -> torch.Tensor:
+        self.train == False # Excluding epsilon greedy
         actions = []
         for i, state in enumerate(states):
             if dones[i].item():
                 actions.append((1, 1))
             else:
                 actions.append(self.get_action((State.tensor_to_state(state, self.player)))) 
+        self.train == True
+
         return torch.tensor(actions)
     
 

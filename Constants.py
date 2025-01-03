@@ -34,10 +34,10 @@ GAMMA = 0.99
 
 #DQN Training
 epochs = 200000
-C = 100
+C = 200
 BATCH_SIZE = 64
 LR = 0.001
-file = "Data\DQN_Model1.pth"
+file = "Data\DQN_Model2.pth"
 
 #Device
 device = torch.device("cpu")

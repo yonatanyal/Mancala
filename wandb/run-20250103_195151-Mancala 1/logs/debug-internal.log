@@ -1,0 +1,20 @@
+{"time":"2025-01-03T19:51:51.8709822+02:00","level":"INFO","msg":"using version","core version":"0.19.1"}
+{"time":"2025-01-03T19:51:51.8715044+02:00","level":"INFO","msg":"created symlink","path":"C:\\yonatan\\school\\AI\\AI project\\Mancala\\wandb\\run-20250103_195151-Mancala 1\\logs\\debug-core.log"}
+{"time":"2025-01-03T19:51:52.0052586+02:00","level":"INFO","msg":"created new stream","id":"Mancala 1"}
+{"time":"2025-01-03T19:51:52.0052586+02:00","level":"INFO","msg":"stream: started","id":"Mancala 1"}
+{"time":"2025-01-03T19:51:52.0052586+02:00","level":"INFO","msg":"handler: started","stream_id":"Mancala 1"}
+{"time":"2025-01-03T19:51:52.0052586+02:00","level":"INFO","msg":"writer: Do: started","stream_id":"Mancala 1"}
+{"time":"2025-01-03T19:51:52.0052586+02:00","level":"INFO","msg":"sender: started","stream_id":"Mancala 1"}
+{"time":"2025-01-03T19:51:52.2712641+02:00","level":"INFO","msg":"api: retrying HTTP error","status":409,"url":"https://api.wandb.ai/graphql","body":"{\"errors\":[{\"message\":\"run Mancala 1 was previously created and deleted; try a new run name\",\"path\":[\"upsertBucket\"]}],\"data\":{\"upsertBucket\":null}}"}
+{"time":"2025-01-03T19:51:54.9141743+02:00","level":"INFO","msg":"api: retrying HTTP error","status":409,"url":"https://api.wandb.ai/graphql","body":"{\"errors\":[{\"message\":\"run Mancala 1 was previously created and deleted; try a new run name\",\"path\":[\"upsertBucket\"]}],\"data\":{\"upsertBucket\":null}}"}
+{"time":"2025-01-03T19:51:59.2390577+02:00","level":"INFO","msg":"api: retrying HTTP error","status":409,"url":"https://api.wandb.ai/graphql","body":"{\"errors\":[{\"message\":\"run Mancala 1 was previously created and deleted; try a new run name\",\"path\":[\"upsertBucket\"]}],\"data\":{\"upsertBucket\":null}}"}
+{"time":"2025-01-03T19:52:08.6003588+02:00","level":"INFO","msg":"api: retrying HTTP error","status":409,"url":"https://api.wandb.ai/graphql","body":"{\"errors\":[{\"message\":\"run Mancala 1 was previously created and deleted; try a new run name\",\"path\":[\"upsertBucket\"]}],\"data\":{\"upsertBucket\":null}}"}
+{"time":"2025-01-03T19:52:26.7367125+02:00","level":"INFO","msg":"api: retrying HTTP error","status":409,"url":"https://api.wandb.ai/graphql","body":"{\"errors\":[{\"message\":\"run Mancala 1 was previously created and deleted; try a new run name\",\"path\":[\"upsertBucket\"]}],\"data\":{\"upsertBucket\":null}}"}
+{"time":"2025-01-03T19:53:04.8753803+02:00","level":"INFO","msg":"api: retrying HTTP error","status":409,"url":"https://api.wandb.ai/graphql","body":"{\"errors\":[{\"message\":\"run Mancala 1 was previously created and deleted; try a new run name\",\"path\":[\"upsertBucket\"]}],\"data\":{\"upsertBucket\":null}}"}
+{"time":"2025-01-03T19:53:52.8319012+02:00","level":"INFO","msg":"stream: closing","id":"Mancala 1"}
+{"time":"2025-01-03T19:53:52.8319012+02:00","level":"ERROR","msg":"sender: upsertRun:","error":"failed to upsert bucket: api: failed sending: context canceled"}
+{"time":"2025-01-03T19:53:52.8319012+02:00","level":"INFO","msg":"handler: closed","stream_id":"Mancala 1"}
+{"time":"2025-01-03T19:53:52.8319012+02:00","level":"INFO","msg":"writer: Close: closed","stream_id":"Mancala 1"}
+{"time":"2025-01-03T19:53:52.8319012+02:00","level":"WARN","msg":"runwork: ignoring record after close","work":{"Record":{"RecordType":{"Request":{"RequestType":{"Defer":{}}}},"control":{"always_send":true}}}}
+{"time":"2025-01-03T19:53:52.8325759+02:00","level":"INFO","msg":"sender: closed","stream_id":"Mancala 1"}
+{"time":"2025-01-03T19:53:52.8325759+02:00","level":"INFO","msg":"stream: closed","id":"Mancala 1"}
