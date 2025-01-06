@@ -50,7 +50,7 @@ class Tester:
 
 
 if __name__ == '__main__':
-    run_id = 5
+    run_id = 2
     env = Environment(State())
     player1 = DQN_Agent(1, env, parameters_path=f'Data\DQN_Model{run_id}.pth', test=True)
     # player1 = Random_Agent(1, env)

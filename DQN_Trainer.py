@@ -30,6 +30,7 @@ def main ():
     resume_wandb = False
     run_id = 6
     checkpoint_path = f'Data/checkpoint{run_id}.pth'
+    buffer_path = f'Data/buffer_run{run_id}.pth'
     file = f"Data\DQN_Model{run_id}.pth"
     if os.path.exists(checkpoint_path):
         resume_wandb = True
@@ -42,6 +43,7 @@ def main ():
         avg_diffs = checkpoint['avg_diff']
         wins_per_10 = checkpoint['wins']
         defeats_per_10 = checkpoint['defeats']
+        buffer = torch.load(buffer_path)
 
     Q = player1.DQN
 
@@ -143,6 +145,7 @@ def main ():
                 'defeats': defeats_per_10
             }
             torch.save(checkpoint, checkpoint_path)
+            torch.save(buffer, buffer_path)
 
     player1.save_param(file)
 

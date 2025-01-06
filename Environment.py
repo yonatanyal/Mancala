@@ -124,7 +124,7 @@ class Environment:
         if player1_score > player2_score:
             state.end_of_game = 1
         
-        elif player2_score < player1_score:
+        elif player2_score > player1_score:
             state.end_of_game = 2
         
         else:

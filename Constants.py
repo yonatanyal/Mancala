@@ -41,3 +41,5 @@ LR = 0.001
 #Device
 device = torch.device("cpu")
 # device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+best_model_path = 'Data/DQN_Model2.pth'
