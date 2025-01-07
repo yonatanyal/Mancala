@@ -15,7 +15,7 @@ class Tester:
         self.player2: Agent = player2
         
 
-    def test(self, games: int) -> tuple[int,int,int]:
+    def test(self, games: int = 100) -> tuple[int,int,int]:
         player = self.player1
         player1_wins = 0
         player2_wins = 0
@@ -39,6 +39,7 @@ class Tester:
                     player = self.player1
                     play = False
 
+        self.env.restart()
         return player1_wins, player2_wins, ties        
 
 
@@ -49,12 +50,12 @@ class Tester:
             return self.player1
 
 
-if __name__ == '__main__':
-    run_id = 2
-    env = Environment(State())
-    player1 = DQN_Agent(1, env, parameters_path=f'Data\DQN_Model{run_id}.pth', test=True)
-    # player1 = Random_Agent(1, env)
-    player2 = Random_Agent(2, env)
-    tester = Tester(env,player1, player2)
-    print(tester.test(100))
+# if __name__ == '__main__':
+    # run_id = 2
+    # env = Environment(State())
+    # player1 = DQN_Agent(1, env, parameters_path=best_model_path, test=True)
+    # # player1 = Random_Agent(1, env)
+    # player2 = Random_Agent(2, env)
+    # tester = Tester(env,player1, player2)
+    # print(tester.test())
     

@@ -1,0 +1,11 @@
+epoch: 199, loss: 1544.56, wins per 10 games: 95, avg piece difference: -8.8
+Traceback (most recent call last):
+  File "c:\Users\Talmid\Downloads\Mancala\DQN_Trainer.py", line 174, in <module>
+    main()
+  File "c:\Users\Talmid\Downloads\Mancala\DQN_Trainer.py", line 147, in main
+    win_p = tester.test()[0]
+            ^^^^^^^^^^^^^
+  File "c:\Users\Talmid\Downloads\Mancala\Tester.py", line 27, in test
+    action = player(self.env.state)
+                    ^^^^^^^^^^^^^^
+AttributeError: 'DQN_Agent' object has no attribute 'state'

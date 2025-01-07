@@ -60,6 +60,16 @@ class DQN_Agent(Agent):
         return torch.tensor(actions)
     
 
+    def test_mode(self):
+        self.train = False
+        self.test = True
+
+    
+    def train_mode(self):
+        self.train = True
+        self.test = False
+
+
     def save_param (self, path) -> None:
         self.DQN.save_params(path)
 

@@ -8,6 +8,10 @@ class Environment:
         self.state = state
 
 
+    def restart(self):
+        self.state = State()
+
+
     def legal(self, state: State, action: tuple) -> bool:
         if not action:
             return False

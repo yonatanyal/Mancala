@@ -1,0 +1,8 @@
+{"time":"2025-01-07T13:39:09.8199305+02:00","level":"INFO","msg":"using version","core version":"0.19.1"}
+{"time":"2025-01-07T13:39:09.8209898+02:00","level":"INFO","msg":"created symlink","path":"C:\\Users\\Talmid\\Downloads\\Mancala\\wandb\\run-20250107_133909-Mancala 8\\logs\\debug-core.log"}
+{"time":"2025-01-07T13:39:09.9404454+02:00","level":"INFO","msg":"created new stream","id":"Mancala 8"}
+{"time":"2025-01-07T13:39:09.9404454+02:00","level":"INFO","msg":"stream: started","id":"Mancala 8"}
+{"time":"2025-01-07T13:39:09.9455008+02:00","level":"INFO","msg":"handler: started","stream_id":"Mancala 8"}
+{"time":"2025-01-07T13:39:09.9460169+02:00","level":"INFO","msg":"writer: Do: started","stream_id":"Mancala 8"}
+{"time":"2025-01-07T13:39:09.9460169+02:00","level":"INFO","msg":"sender: started","stream_id":"Mancala 8"}
+{"time":"2025-01-07T13:39:10.3636371+02:00","level":"INFO","msg":"Starting system monitor"}
