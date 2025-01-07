@@ -28,51 +28,17 @@ def main ():
     start_epoch = 0
 
     # init Testing
-    tester =  Tester(env, player1, player2)
+    tester = Tester(env, player1, player2)
     best_model_state_dict = player1.DQN.state_dict()
     best_win_p = 0
     
     # Load checkpoint
-    resume_wandb = False
     run_id = 9
     checkpoint_path = f'Data/checkpoint{run_id}.pth'
     buffer_path = f'Data/buffer_run{run_id}.pth'
     file = f"Data\DQN_Model{run_id}.pth"
-    if os.path.exists(checkpoint_path):
-        resume_wandb = True
-        checkpoint = torch.load(checkpoint_path)
-        start_epoch = checkpoint['epoch'] + 1
-        player1.DQN.load_state_dict(checkpoint['model_state_dict'])
-        Q_hat.load_state_dict(checkpoint['model_state_dict'])
-        best_model_state_dict = checkpoint['best_model_state_dict']
-        optim.load_state_dict(checkpoint['optimizer_state_dict'])
-        best_win_p = checkpoint['best_model_win_percentage']
-        losses = checkpoint['loss']
-        avg_diffs = checkpoint['avg_diff']
-        wins_per_10 = checkpoint['wins']
-        defeats_per_10 = checkpoint['defeats']
-        buffer = torch.load(buffer_path)
 
     Q = player1.DQN
-
-    # init wandb
-    wandb.init(
-        project="Mancala",
-        resume=resume_wandb,
-        id=f'Mancala {run_id}',
-        config={
-            "name": f'Mancala {run_id}',
-            "checkpoint": checkpoint_path,
-            "learning_rate": LR,
-            "epochs": epochs,
-            "start_epoch": start_epoch,
-            "decay": epsilon_decay,
-            "gamma": GAMMA,
-            "batch_size": BATCH_SIZE, 
-            "C": C,
-            "Model": str(player1.DQN),
-            "device": str(device)
-        })
     
     ''' Training '''
     for epoch in range(start_epoch, epochs):
@@ -129,14 +95,6 @@ def main ():
             wins_per_10.append(wins)
             defeats_per_10.append(losses)
 
-            # log metrics to wandb
-            wandb.log({
-                "Wins Per 10 Games": wins,
-                "Defeats Per 10 Games": defeats,
-                "Loss": loss,
-                "Average Piece Difference Per 10 Games" : avg_diff
-            })
-
             avg_diff = 0
             wins = 0
             defeats = 0
@@ -166,8 +124,6 @@ def main ():
             torch.save(buffer, buffer_path)
 
     player1.save_param(file)
-
-    wandb.finish()
 
 
 if __name__ == '__main__':
