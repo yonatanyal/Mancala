@@ -23,20 +23,8 @@ def main ():
     optim = torch.optim.Adam(player1.DQN.parameters(), lr=LR)
 
     # init metrics
-    losses, avg_diffs, wins_per_10, defeats_per_10 = [], [], [], []
     avg_diff, wins, defeats = 0, 0 ,0
     start_epoch = 0
-
-    # init Testing
-    tester = Tester(env, player1, player2)
-    best_model_state_dict = player1.DQN.state_dict()
-    best_win_p = 0
-    
-    # Load checkpoint
-    run_id = 9
-    checkpoint_path = f'Data/checkpoint{run_id}.pth'
-    buffer_path = f'Data/buffer_run{run_id}.pth'
-    file = f"Data\DQN_Model{run_id}.pth"
 
     Q = player1.DQN
     
@@ -46,16 +34,22 @@ def main ():
         state = State()
         while not env.is_end_of_game(state):
             action = player1.get_action(state, epoch=epoch)
+            print(state.board)
+            print(action)
             after_state, reward = env.move(state, action)
             if env.is_end_of_game(after_state):
-                buffer.push(state, action, reward, after_state, env.end_of_game(after_state))
+                buffer.push(state, action, reward, after_state, env.is_end_of_game(after_state))
                 state = after_state
                 break
             
             after_action = player2.get_action(state=after_state)
+            print(after_state.board)
+            print(after_action)
             next_state, next_reward = env.move(after_state, after_action)
             reward += next_reward
-            buffer.push(state, action, reward, next_state, env.end_of_game(next_state))
+            print(reward)
+            print('-----------------------------')
+            buffer.push(state, action, reward, next_state, env.is_end_of_game(next_state))
             state = next_state
 
         # update metrics
@@ -90,40 +84,12 @@ def main ():
             avg_diff /= 10
             print(f'epoch: {epoch}, loss: {loss.item():.2f}, wins per 10 games: {wins}, avg piece difference: {avg_diff}')
 
-            # append params
-            avg_diffs.append(avg_diff)
-            wins_per_10.append(wins)
-            defeats_per_10.append(losses)
-
             avg_diff = 0
             wins = 0
             defeats = 0
 
-        # Test the current model and save the one with the highest win %
-        if epoch % 100 == 0:
-            player1.test_mode()
-            win_p = tester.test()[0]
-            if win_p > best_win_p:
-                best_model_state_dict = player1.DQN.state_dict()
 
-
-        # create checkpoint
-        if epoch % 10000 == 0:
-            checkpoint = {
-                'epoch': epoch,
-                'model_state_dict': player1.DQN.state_dict(),
-                'best_model_state_dict': best_model_state_dict,
-                'optimizer_state_dict': optim.state_dict(),
-                'best_model_win_percentage' : best_win_p,
-                'loss': losses,
-                'avg_diff': avg_diffs,
-                'wins': wins_per_10,
-                'defeats': defeats_per_10
-            }
-            torch.save(checkpoint, checkpoint_path)
-            torch.save(buffer, buffer_path)
-
-    player1.save_param(file)
+    player1.save_param("Data/debug_Training")
 
 
 if __name__ == '__main__':

@@ -104,7 +104,7 @@ class Environment:
         
 
     def is_end_of_game(self, state: State) -> bool:
-        return state.end_of_game != 0
+        return 1 if state.end_of_game != 0 else 0
 
 
     def end_of_game(self, state: State) -> int:
@@ -114,7 +114,7 @@ class Environment:
 
         # Checking if the game has ended
         if row1_sum != 0 and row2_sum != 0:
-            return 0
+            return 
         
         # Updating score and board
         player1_score = board[0][0] + row2_sum
@@ -133,5 +133,3 @@ class Environment:
         
         else:
             state.end_of_game = -1
-
-        return 1

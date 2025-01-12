@@ -82,14 +82,14 @@ def main ():
             action = player1.get_action(state, epoch=epoch)
             after_state, reward = env.move(state, action)
             if env.is_end_of_game(after_state):
-                buffer.push(state, action, reward, after_state, env.end_of_game(after_state))
+                buffer.push(state, action, reward, after_state, env.is_end_of_game(after_state))
                 state = after_state
                 break
             
             after_action = player2.get_action(state=after_state)
             next_state, next_reward = env.move(after_state, after_action)
             reward += next_reward
-            buffer.push(state, action, reward, next_state, env.end_of_game(next_state))
+            buffer.push(state, action, reward, next_state, env.is_end_of_game(next_state))
             state = next_state
 
         # update metrics
@@ -147,6 +147,7 @@ def main ():
             win_p = tester.test()[0]
             if win_p > best_win_p:
                 best_model_state_dict = player1.DQN.state_dict()
+            player1.train_mode()
 
 
         # create checkpoint
