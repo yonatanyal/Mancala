@@ -1,0 +1,17 @@
+{"time":"2025-01-13T08:55:18.2067772+02:00","level":"INFO","msg":"using version","core version":"0.19.1"}
+{"time":"2025-01-13T08:55:18.2067772+02:00","level":"INFO","msg":"created symlink","path":"C:\\Users\\user\\Desktop\\AI\\Mancala\\wandb\\run-20250113_085518-Mancala 10\\logs\\debug-core.log"}
+{"time":"2025-01-13T08:55:18.3177971+02:00","level":"INFO","msg":"created new stream","id":"Mancala 10"}
+{"time":"2025-01-13T08:55:18.3177971+02:00","level":"INFO","msg":"stream: started","id":"Mancala 10"}
+{"time":"2025-01-13T08:55:18.3177971+02:00","level":"INFO","msg":"writer: Do: started","stream_id":"Mancala 10"}
+{"time":"2025-01-13T08:55:18.3177971+02:00","level":"INFO","msg":"handler: started","stream_id":"Mancala 10"}
+{"time":"2025-01-13T08:55:18.3177971+02:00","level":"INFO","msg":"sender: started","stream_id":"Mancala 10"}
+{"time":"2025-01-13T08:55:18.6067855+02:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-01-13T09:07:25.8140407+02:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-01-13T09:07:25.8140407+02:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-01-13T09:07:26.8191246+02:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"uploading output.log","runtime_seconds":0.409994,"progress":"508.5KB/508.5KB"}],"total_operations":1}}
+{"time":"2025-01-13T09:07:27.6599738+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-01-13T09:07:28.9410699+02:00","level":"INFO","msg":"stream: closing","id":"Mancala 10"}
+{"time":"2025-01-13T09:07:28.9410699+02:00","level":"INFO","msg":"handler: closed","stream_id":"Mancala 10"}
+{"time":"2025-01-13T09:07:28.9410699+02:00","level":"INFO","msg":"writer: Close: closed","stream_id":"Mancala 10"}
+{"time":"2025-01-13T09:07:28.9421643+02:00","level":"INFO","msg":"sender: closed","stream_id":"Mancala 10"}
+{"time":"2025-01-13T09:07:28.9421643+02:00","level":"INFO","msg":"stream: closed","id":"Mancala 10"}

@@ -4,11 +4,8 @@ from Random_Agent import Random_Agent
 from Environment import Environment
 from ReplayBuffer import ReplayBuffer
 from State import State
-from Tester import Tester
 import torch 
 from Constants import *
-import wandb
-import os
 
 
 def main ():
@@ -30,55 +27,54 @@ def main ():
     
     ''' Training '''
     for epoch in range(start_epoch, epochs):
-        # Sample Environment
+        
         state = State()
         while not env.is_end_of_game(state):
+
+            #region #####################Sample Environment
             action = player1.get_action(state, epoch=epoch)
-            print(state.board)
-            print(action)
-            after_state, reward = env.move(state, action)
+            after_state, reward = env.move(state.copy(), action)
             if env.is_end_of_game(after_state):
                 buffer.push(state, action, reward, after_state, env.is_end_of_game(after_state))
                 state = after_state
                 break
             
             after_action = player2.get_action(state=after_state)
-            print(after_state.board)
-            print(after_action)
-            next_state, next_reward = env.move(after_state, after_action)
+            next_state, next_reward = env.move(after_state.copy(), after_action)
             reward += next_reward
-            print(reward)
-            print('-----------------------------')
-            buffer.push(state, action, reward, next_state, env.is_end_of_game(next_state))
+            done = env.is_end_of_game(next_state)
+            buffer.push(state, action, reward, next_state, done)
             state = next_state
 
+            # Checking if the buffer's length is greater than the minimum
+            if len(buffer) < 5000:
+                continue
+            #endregion
+
+            #region ############### Training
+            states, actions, rewards, next_states, dones = buffer.sample(BATCH_SIZE)
+            Q_values = Q(states, actions)
+            next_actions = player1.get_actions(next_states, dones)
+            with torch.no_grad():
+                Q_hat_Values = Q_hat(next_states, next_actions)
+            
+            loss = Q.loss(Q_values, rewards, Q_hat_Values, dones)
+            loss.backward()
+            optim.step()
+            optim.zero_grad()
+        
+            #endregion
+        if epoch % C == 0:
+            Q_hat.load_state_dict(Q.state_dict())
+    
         # update metrics
         diff = state.diff()
         avg_diff += diff
         if diff > 0:
             wins += 1
         elif diff < 0:
-            defeats += 1   
+            defeats += 1 
 
-        # Checking if the buffer's length is greater than the minimum
-        if len(buffer) < 5000:
-            continue
-
-        # Training
-        states, actions, rewards, next_states, dones = buffer.sample(BATCH_SIZE)
-        Q_values = Q(states, actions)
-        next_actions = player1.get_actions(next_states, dones)
-        with torch.no_grad():
-            Q_hat_Values = Q_hat(next_states, next_actions)
-        
-        loss = Q.loss(Q_values, rewards, Q_hat_Values, dones)
-        loss.backward()
-        optim.step()
-        optim.zero_grad()
-        
-        if epoch % C == 0:
-            Q_hat.load_state_dict(Q.state_dict())
-    
         if (epoch + 1) % 10 == 0:
             # print metrics
             avg_diff /= 10

@@ -34,7 +34,7 @@ def main ():
     
     # Load checkpoint
     resume_wandb = False
-    run_id = 9
+    run_id = 10
     checkpoint_path = f'Data/checkpoint{run_id}.pth'
     buffer_path = f'Data/buffer_run{run_id}.pth'
     file = f"Data\DQN_Model{run_id}.pth"

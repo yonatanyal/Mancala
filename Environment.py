@@ -45,7 +45,7 @@ class Environment:
         step = -1 if player == 1 else 1
         prev_p1_score, prev_p2_score = state.board[0][0], state.board[1][6]
         reward = 0
-
+        
         while stones_left > 0:
             for pit_col in range(col + step, col + (stones + 1) * step, step):
                 curr_pit = (row, pit_col)

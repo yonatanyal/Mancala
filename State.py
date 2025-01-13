@@ -35,6 +35,10 @@ class State:
         return State(board, player)
     
 
+    def copy(self):
+        return State(self.board.copy(), self.player)
+
+
     def diff(self) -> int:
         return self.board[0][0] - self.board[1][6]
     

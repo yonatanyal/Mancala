@@ -52,7 +52,7 @@ class DQN_Agent(Agent):
         actions = []
         for i, state in enumerate(states):
             if dones[i].item():
-                actions.append((1, 1))
+                actions.append((-1, -1))
             else:
                 actions.append(self.get_action((State.tensor_to_state(state, self.player)))) 
         self.train == True

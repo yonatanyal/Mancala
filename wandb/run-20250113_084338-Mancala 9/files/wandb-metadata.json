@@ -1,0 +1,31 @@
+{
+  "os": "Windows-10-10.0.19045-SP0",
+  "python": "CPython 3.11.5",
+  "startedAt": "2025-01-13T06:43:38.476448Z",
+  "program": "c:\\Users\\user\\Desktop\\AI\\Mancala\\DQN_Trainer.py",
+  "codePath": "DQN_Trainer.py",
+  "git": {
+    "remote": "https://github.com/yonatanyal/Mancala.git",
+    "commit": "fdcf43cb6ef2077eb75f86cd0dfd8748441bf1e7"
+  },
+  "email": "yoyalov@gmail.com",
+  "root": "C:\\Users\\user\\Desktop\\AI\\Mancala",
+  "host": "DESKTOP-5SLDEF6",
+  "executable": "C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+  "codePathLocal": "DQN_Trainer.py",
+  "cpu_count": 12,
+  "cpu_count_logical": 20,
+  "disk": {
+    "/": {
+      "total": "255255900160",
+      "used": "133819678720"
+    }
+  },
+  "memory": {
+    "total": "16845500416"
+  },
+  "cpu": {
+    "count": 12,
+    "countLogical": 20
+  }
+}
