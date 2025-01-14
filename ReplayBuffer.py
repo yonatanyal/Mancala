@@ -6,7 +6,7 @@ from State import State
 
 
 class ReplayBuffer:
-    def __init__(self, capacity = 10000) -> None:
+    def __init__(self, capacity = 100000) -> None:
         self.buffer = deque(maxlen=capacity)
 
     def push (self, state: State, action, reward, next_state: State, done) -> None:

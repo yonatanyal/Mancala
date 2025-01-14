@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "c:\Users\user\Desktop\AI\Mancala\DQN_Trainer.py", line 177, in <module>
+    main()
+  File "c:\Users\user\Desktop\AI\Mancala\DQN_Trainer.py", line 128, in main
+    print(f'epoch: {epoch}, loss: {loss.item():.2f}, wins per 10 games: {wins}, avg piece difference: {avg_diff}')
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'loss' where it is not associated with a value

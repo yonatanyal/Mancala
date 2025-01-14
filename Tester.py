@@ -50,12 +50,11 @@ class Tester:
             return self.player1
 
 
-# if __name__ == '__main__':
-    # run_id = 2
-    # env = Environment(State())
-    # player1 = DQN_Agent(1, env, parameters_path=best_model_path, test=True)
-    # # player1 = Random_Agent(1, env)
-    # player2 = Random_Agent(2, env)
-    # tester = Tester(env,player1, player2)
-    # print(tester.test())
+if __name__ == '__main__':
+    env = Environment(State())
+    player1 = DQN_Agent(1, env, parameters_path='Data/DQN_Model11.pth', test=True)
+    # player1 = Random_Agent(1, env)
+    player2 = Random_Agent(2, env)
+    tester = Tester(env,player1, player2)
+    print(tester.test())
     

@@ -21,6 +21,7 @@ def main ():
     Q_hat :DQN = player1.DQN.copy()
     Q_hat.train = False
     optim = torch.optim.Adam(player1.DQN.parameters(), lr=LR)
+    loss = torch.tensor([0])
 
     # init metrics
     losses, avg_diffs, wins_per_10, defeats_per_10 = [], [], [], []
@@ -34,7 +35,7 @@ def main ():
     
     # Load checkpoint
     resume_wandb = False
-    run_id = 10
+    run_id = 11
     checkpoint_path = f'Data/checkpoint{run_id}.pth'
     buffer_path = f'Data/buffer_run{run_id}.pth'
     file = f"Data\DQN_Model{run_id}.pth"
@@ -76,21 +77,43 @@ def main ():
     
     ''' Training '''
     for epoch in range(start_epoch, epochs):
-        # Sample Environment
         state = State()
         while not env.is_end_of_game(state):
+            #region ############### Sample Environment
             action = player1.get_action(state, epoch=epoch)
-            after_state, reward = env.move(state, action)
+            after_state, reward = env.move(state.copy(), action)
             if env.is_end_of_game(after_state):
                 buffer.push(state, action, reward, after_state, env.is_end_of_game(after_state))
                 state = after_state
                 break
             
             after_action = player2.get_action(state=after_state)
-            next_state, next_reward = env.move(after_state, after_action)
+            next_state, next_reward = env.move(after_state.copy(), after_action)
             reward += next_reward
-            buffer.push(state, action, reward, next_state, env.is_end_of_game(next_state))
+            done = env.is_end_of_game(next_state)
+            buffer.push(state, action, reward, next_state, done)
             state = next_state
+
+            # Checking if the buffer's length is greater than the minimum
+            if len(buffer) < 5000:
+                continue
+            #endregion
+
+            #region ############### Back propagation 
+            states, actions, rewards, next_states, dones = buffer.sample(BATCH_SIZE)
+            Q_values = Q(states, actions)
+            next_actions = player1.get_actions(next_states, dones)
+            with torch.no_grad():
+                Q_hat_Values = Q_hat(next_states, next_actions)
+            
+            loss = Q.loss(Q_values, rewards, Q_hat_Values, dones)
+            loss.backward()
+            optim.step()
+            optim.zero_grad()
+            #endregion
+
+        if epoch % C == 0:
+            Q_hat.load_state_dict(Q.state_dict())
 
         # update metrics
         diff = state.diff()
@@ -99,32 +122,13 @@ def main ():
             wins += 1
         elif diff < 0:
             defeats += 1   
-
-        # Checking if the buffer's length is greater than the minimum
-        if len(buffer) < 5000:
-            continue
-
-        # Training
-        states, actions, rewards, next_states, dones = buffer.sample(BATCH_SIZE)
-        Q_values = Q(states, actions)
-        next_actions = player1.get_actions(next_states, dones)
-        with torch.no_grad():
-            Q_hat_Values = Q_hat(next_states, next_actions)
-        
-        loss = Q.loss(Q_values, rewards, Q_hat_Values, dones)
-        loss.backward()
-        optim.step()
-        optim.zero_grad()
-        
-        if epoch % C == 0:
-            Q_hat.load_state_dict(Q.state_dict())
     
         if (epoch + 1) % 10 == 0:
             # print metrics
             avg_diff /= 10
             print(f'epoch: {epoch}, loss: {loss.item():.2f}, wins per 10 games: {wins}, avg piece difference: {avg_diff}')
 
-            # append params
+            # append metrics
             avg_diffs.append(avg_diff)
             wins_per_10.append(wins)
             defeats_per_10.append(losses)
@@ -148,7 +152,6 @@ def main ():
             if win_p > best_win_p:
                 best_model_state_dict = player1.DQN.state_dict()
             player1.train_mode()
-
 
         # create checkpoint
         if epoch % 10000 == 0:
