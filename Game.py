@@ -32,20 +32,15 @@ def main_menu():
             case 2:
                 player1  = Random_Agent(1, env)
             case 3:
-                player1  = DQN_Agent(1, env, parameters_path=best_model_path)
+                player1  = DQN_Agent(1, env, parameters_path=best_model_path_P1)
             case 4:
-                player1  = Random_Agent(1, env)
-            case 5:
                 player2  = Human_Agent(2, env, graphics)
+            case 5:
+                player2  = Random_Agent(2, env)
             case 6:
-                player2  = Random_Agent(2, env)
+                player2  = DQN_Agent(2, env, parameters_path=best_model_path_P2)
             case 7:
-                player2  = DQN_Agent(2, env)
-            case 8:
-                player2  = Random_Agent(2, env)
-            case 9:
                 play()
-                run = False
         
         pygame.display.update()
         # pygame.display.flip()
@@ -53,6 +48,7 @@ def main_menu():
 
 
 def play(): 
+    env.restart()
     run = True
     play = True
     player = player1
@@ -69,11 +65,23 @@ def play():
                 player = switch_players(player)
                 if env.is_end_of_game(env.state):
                     play = False
+                    # end_menu()
+                    return
     
         graphics(env.state)   
         pygame.display.update()
         # pygame.display.flip()
         clock.tick(FPS)
+
+
+def end_menu():
+    run = True
+    while run:
+        events = pygame.event.get()
+        for event in events:
+            if event.type == pygame.QUIT:
+                run = False
+        # pick = graphics.end_menu(events)
 
 
 def switch_players(player: Agent):

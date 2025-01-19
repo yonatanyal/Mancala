@@ -36,9 +36,9 @@ def main ():
     # Load checkpoint
     resume_wandb = False
     run_id = 11
-    checkpoint_path = f'Data/checkpoint{run_id}.pth'
-    buffer_path = f'Data/buffer_run{run_id}.pth'
-    file = f"Data\DQN_Model{run_id}.pth"
+    checkpoint_path = f'Data/Player1/checkpoint{run_id}.pth'
+    buffer_path = f'Data/buffers/Player1/buffer_run{run_id}.pth'
+    file = f"Data/Player1/DQN_Model{run_id}.pth"
     if os.path.exists(checkpoint_path):
         resume_wandb = True
         checkpoint = torch.load(checkpoint_path)

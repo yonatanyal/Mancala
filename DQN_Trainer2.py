@@ -35,10 +35,10 @@ def main ():
     
     # Load checkpoint
     resume_wandb = False
-    run_id = 11
-    checkpoint_path = f'Data/checkpoint{run_id}.pth'
-    buffer_path = f'Data/buffer_run{run_id}.pth'
-    file = f"Data\DQN_Model{run_id}.pth"
+    run_id = 1
+    checkpoint_path = f'Data/Player2/checkpoint{run_id}.pth'
+    buffer_path = f'Data/buffers/Player2/buffer_run{run_id}.pth'
+    file = f"Data/Player2/DQN_Model{run_id}.pth"
     if os.path.exists(checkpoint_path):
         resume_wandb = True
         checkpoint = torch.load(checkpoint_path)
@@ -60,9 +60,9 @@ def main ():
     wandb.init(
         project="Mancala",
         resume=resume_wandb,
-        id=f'Mancala {run_id}',
+        id=f'Mancala P2 {run_id}',
         config={
-            "name": f'Mancala {run_id}',
+            "name": f'Mancala P2 {run_id}',
             "checkpoint": checkpoint_path,
             "learning_rate": LR,
             "epochs": epochs,
@@ -71,25 +71,30 @@ def main ():
             "gamma": GAMMA,
             "batch_size": BATCH_SIZE, 
             "C": C,
-            "Model": str(player1.DQN),
+            "Model": str(player2.DQN),
             "device": str(device)
         })
     
     ''' Training '''
     for epoch in range(start_epoch, epochs):
-        state = State()
+        # First Move
+        satrt_state = State()
+        action = player1.get_action(satrt_state)
+        state, reward = env.move(satrt_state, action)
+
         while not env.is_end_of_game(state):
             #region ############### Sample Environment
-            action = player1.get_action(state)
+            action = player2.get_action(state, epoch=epoch)
             after_state, reward = env.move(state.copy(), action)
             if env.is_end_of_game(after_state):
                 buffer.push(state, action, reward, after_state, env.is_end_of_game(after_state))
                 state = after_state
                 break
             
-            after_action = player2.get_action(state=after_state, epoch=epoch)
+            after_action = player1.get_action(state=after_state)
             next_state, next_reward = env.move(after_state.copy(), after_action)
             reward += next_reward
+            reward *= -1 # reverse reward
             done = env.is_end_of_game(next_state)
             buffer.push(state, action, reward, next_state, done)
             state = next_state

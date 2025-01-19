@@ -70,22 +70,19 @@ class Graphics:
         self.selected_player_img = pygame.image.load("menu/Selected Player Rect.jpg")
         self.PLAY_BUTTON = Button(image=pygame.image.load("menu/Play Rect.png"), pos=(WIDTH/2, 225), 
                             text_input="PLAY", font=self.get_font(50), base_color="#d7fcd4", hovering_color="White")
-        self.HUMANP1_BUTTON = Button(image=self.player_img, pos=((WIDTH-400)/4 + 100, 400), 
+        self.HUMANP1_BUTTON = Button(image=self.player_img, pos=(375, 400), 
                             text_input="HUMAN", font=self.get_font(25), base_color="#d7fcd4", hovering_color="White")
-        self.RANDOMP1_BUTTON = Button(image=self.player_img, pos=((WIDTH-400)/2+ 100, 400), 
+        self.RANDOMP1_BUTTON = Button(image=self.player_img, pos=(WIDTH/2, 400), 
                             text_input="RANDOM", font=self.get_font(25), base_color="#d7fcd4", hovering_color="White")
-        self.DQNP1_BUTTON = Button(image=self.player_img, pos=(3*(WIDTH-400)/4+ 100, 400), 
+        self.DQNP1_BUTTON = Button(image=self.player_img, pos=(WIDTH - 375, 400), 
                             text_input="DQN", font=self.get_font(25), base_color="#d7fcd4", hovering_color="White")
-        self.P1_BUTTON = Button(image=self.player_img, pos=(WIDTH-300, 400), 
-                            text_input="OTHER", font=self.get_font(25), base_color="#d7fcd4", hovering_color="White")
-        self.HUMANP2_BUTTON = Button(image=self.player_img, pos=((WIDTH-400)/4 + 100, 550), 
+        
+        self.HUMANP2_BUTTON = Button(image=self.player_img, pos=(375, 550), 
                             text_input="HUMAN", font=self.get_font(25), base_color="#d7fcd4", hovering_color="White")
-        self.RANDOMP2_BUTTON = Button(image=self.player_img, pos=((WIDTH-400)/2 + 100, 550), 
+        self.RANDOMP2_BUTTON = Button(image=self.player_img, pos=(WIDTH/2, 550), 
                             text_input="RANDOM", font=self.get_font(25), base_color="#d7fcd4", hovering_color="White")
-        self.DQNP2_BUTTON = Button(image=self.player_img, pos=(3*(WIDTH-400)/4 + 100, 550), 
+        self.DQNP2_BUTTON = Button(image=self.player_img, pos=(WIDTH - 375, 550), 
                             text_input="DQN", font=self.get_font(25), base_color="#d7fcd4", hovering_color="White")
-        self.P2_BUTTON = Button(image=self.player_img, pos=(WIDTH-300, 550), 
-                            text_input="OTHER", font=self.get_font(25), base_color="#d7fcd4", hovering_color="White")
 
 
     def draw(self, state: State) -> None:
@@ -266,8 +263,8 @@ class Graphics:
         self.screen.blit(self.P2_TEXT, self.P2_RECT)
 
         buttons = [
-            self.HUMANP1_BUTTON, self.RANDOMP1_BUTTON, self.DQNP1_BUTTON, self.P1_BUTTON,
-            self.HUMANP2_BUTTON, self.RANDOMP2_BUTTON, self.DQNP2_BUTTON, self.P2_BUTTON,
+            self.HUMANP1_BUTTON, self.RANDOMP1_BUTTON, self.DQNP1_BUTTON,
+            self.HUMANP2_BUTTON, self.RANDOMP2_BUTTON, self.DQNP2_BUTTON,
             self.PLAY_BUTTON
         ]
 
@@ -281,7 +278,7 @@ class Graphics:
                 for i, button in enumerate(buttons):
                     if button.check_for_input(MENU_MOUSE_POS):
                         for j, b in enumerate(buttons):
-                            if b is not button and j//4 == i//4:
+                            if b is not button and j//3 == i//3:
                                 b.image = self.player_img
                             
                         button.image = self.selected_player_img

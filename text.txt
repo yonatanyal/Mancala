@@ -40,7 +40,7 @@
     epsilon greedy: epsilon_start = 1, epsilon_final = 0.01, epsilon_decay = 5000
     *bug in trainer => didn't train well
 
-8: "DQN_Model11pth":
+8: "DQN_Model11.pth":
     Model: L1 = 128, L2 = 64
     Training: epochs = 70000, C = 200, batch size = 64, learning rate = 0.001, gamma = 0.99
     epsilon greedy: epsilon_start = 1, epsilon_final = 0.01, epsilon_decay = 5000
