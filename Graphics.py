@@ -66,23 +66,31 @@ class Graphics:
         self.P2_TEXT = self.get_font(40).render("Player 2:", True, "#b68f40")
         self.P2_RECT = self.P2_TEXT.get_rect(center=(WIDTH/2, 475))
 
+        self.RESULT_TEXT = self.get_font(70).render("TIE", True, "#b68f40")
+        self.RESULT_RECT = self.MENU_TEXT.get_rect(center=(WIDTH/2, 250))
+
         self.player_img = pygame.image.load("menu/Player Rect.png")
         self.selected_player_img = pygame.image.load("menu/Selected Player Rect.jpg")
+
         self.PLAY_BUTTON = Button(image=pygame.image.load("menu/Play Rect.png"), pos=(WIDTH/2, 225), 
                             text_input="PLAY", font=self.get_font(50), base_color="#d7fcd4", hovering_color="White")
-        self.HUMANP1_BUTTON = Button(image=self.player_img, pos=(375, 400), 
+        
+        self.HUMANP1_BUTTON = Button(image=self.selected_player_img, pos=(375, 400), 
                             text_input="HUMAN", font=self.get_font(25), base_color="#d7fcd4", hovering_color="White")
         self.RANDOMP1_BUTTON = Button(image=self.player_img, pos=(WIDTH/2, 400), 
                             text_input="RANDOM", font=self.get_font(25), base_color="#d7fcd4", hovering_color="White")
         self.DQNP1_BUTTON = Button(image=self.player_img, pos=(WIDTH - 375, 400), 
                             text_input="DQN", font=self.get_font(25), base_color="#d7fcd4", hovering_color="White")
         
-        self.HUMANP2_BUTTON = Button(image=self.player_img, pos=(375, 550), 
+        self.HUMANP2_BUTTON = Button(image=self.selected_player_img, pos=(375, 550), 
                             text_input="HUMAN", font=self.get_font(25), base_color="#d7fcd4", hovering_color="White")
         self.RANDOMP2_BUTTON = Button(image=self.player_img, pos=(WIDTH/2, 550), 
                             text_input="RANDOM", font=self.get_font(25), base_color="#d7fcd4", hovering_color="White")
         self.DQNP2_BUTTON = Button(image=self.player_img, pos=(WIDTH - 375, 550), 
                             text_input="DQN", font=self.get_font(25), base_color="#d7fcd4", hovering_color="White")
+        
+        self.RETURN_BUTTON = Button(image=pygame.image.load("menu/Play Rect.png"), pos=(WIDTH/2, 500), 
+                            text_input="RETURN TO MAIN MENU", font=self.get_font(30), base_color="#d7fcd4", hovering_color="White")
 
 
     def draw(self, state: State) -> None:
@@ -224,8 +232,7 @@ class Graphics:
 
 
     def write(self, txt) -> None:
-        font = pygame.font.SysFont('Ariel', 72)
-        text = font.render(txt, True, WHITE)
+        text = self.get_font(30).render(txt, True, WHITE)
         text_rect = text.get_rect(center=(H_WIDTH/2, H_HEIGHT/2))
         self.header_surf.blit(text, text_rect)
 
@@ -281,12 +288,39 @@ class Graphics:
                             if b is not button and j//3 == i//3:
                                 b.image = self.player_img
                             
-                        button.image = self.selected_player_img
+                        if button is not self.PLAY_BUTTON:
+                            button.image = self.selected_player_img
+
                         return i+1
         return 0
-
     
-    def get_font(self, size): # Returns Press-Start-2P in the desired size
+
+    def end_menu(self, result: int, events) -> int:
+        MENU_MOUSE_POS = pygame.mouse.get_pos()
+
+        if result == 1:
+            self.RESULT_TEXT = self.get_font(70).render("PLAYER 1 WON", True, "#b68f40")
+        elif result == 2:
+            self.RESULT_TEXT = self.get_font(70).render("PLAYER 2 WON", True, "#b68f40")
+        elif result == -1:
+            self.RESULT_TEXT = self.get_font(70).render("TIE", True, "#b68f40")
+
+        self.screen.blit(self.bg, (0, 0))
+        self.screen.blit(self.RESULT_TEXT, self.RESULT_RECT)
+
+        self.RETURN_BUTTON.change_color(MENU_MOUSE_POS)
+        self.RETURN_BUTTON.update(self.screen)
+
+        for event in events:
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if self.RETURN_BUTTON.check_for_input(MENU_MOUSE_POS):
+                    return 1
+        
+        return 0
+
+
+    # Returns Press-Start-2P in the desired size
+    def get_font(self, size): 
         return pygame.font.Font("menu/font.ttf", size)
 
 

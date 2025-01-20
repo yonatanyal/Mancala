@@ -6,6 +6,7 @@ from Human_Agent import Human_Agent
 from Random_Agent import Random_Agent
 from DQN_Agent import DQN_Agent
 from Agent import Agent
+import sys
 from Constants import *
 
 
@@ -25,6 +26,7 @@ def main_menu():
         for event in events:
             if event.type == pygame.QUIT:
                 run = False
+
         pick = graphics.main_menu(events)
         match pick:
             case 1:
@@ -50,22 +52,21 @@ def main_menu():
 def play(): 
     env.restart()
     run = True
-    play = True
     player = player1
 
     while run:
         events = pygame.event.get()
         for event in events:
             if event.type == pygame.QUIT:
-                run = False
+                sys.exit()
+
         if play:
             action = player(env.state, events)
             if action:
                 env.move(env.state, action)
                 player = switch_players(player)
                 if env.is_end_of_game(env.state):
-                    play = False
-                    # end_menu()
+                    end_menu(env.state.end_of_game)
                     return
     
         graphics(env.state)   
@@ -74,14 +75,20 @@ def play():
         clock.tick(FPS)
 
 
-def end_menu():
-    run = True
-    while run:
+def end_menu(result):
+    while True:
         events = pygame.event.get()
         for event in events:
             if event.type == pygame.QUIT:
-                run = False
-        # pick = graphics.end_menu(events)
+                sys.exit()
+        
+        pick = graphics.end_menu(result, events)
+        if pick:
+            return
+
+        pygame.display.update()
+        # pygame.display.flip()
+        clock.tick(FPS)
 
 
 def switch_players(player: Agent):
