@@ -120,6 +120,13 @@ class Graphics:
         self.screen.blit(self.score2_surf, (0, 560))
         pygame.display.update()
         # pygame.display.flip()
+        
+
+    def write(self, txt) -> None:
+        text = self.get_font(30).render(txt, True, WHITE)
+        text_rect = text.get_rect(center=(H_WIDTH/2, H_HEIGHT/2))
+        self.header_surf.blit(text, text_rect)
+
     
 
     def draw_pieces(self, state: State) -> None:
@@ -142,12 +149,12 @@ class Graphics:
 
 
     def draw_score(self, state: State) -> None:
-        font = pygame.font.SysFont('Ariel', 54)
+        font = self.get_font(30)
 
         for col in range(COLS):
             score = state.board[0][col]
             score = font.render(str(score), True, WHITE)
-            self.score1_surf.blit(score, (col*150+60,15))
+            self.score1_surf.blit(score, (col*150+60,20))
 
         for col in range(COLS):
             score = state.board[1][col]
@@ -229,12 +236,6 @@ class Graphics:
                 return self.pit24_img
             case _:
                 return self.pit25_img
-
-
-    def write(self, txt) -> None:
-        text = self.get_font(30).render(txt, True, WHITE)
-        text_rect = text.get_rect(center=(H_WIDTH/2, H_HEIGHT/2))
-        self.header_surf.blit(text, text_rect)
 
 
     def calc_pos(self, row_col) -> tuple:
