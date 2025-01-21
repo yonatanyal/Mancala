@@ -67,7 +67,7 @@ class Graphics:
         self.P2_RECT = self.P2_TEXT.get_rect(center=(WIDTH/2, 475))
 
         self.RESULT_TEXT = self.get_font(70).render("TIE", True, "#b68f40")
-        self.RESULT_RECT = self.MENU_TEXT.get_rect(center=(WIDTH/2, 250))
+        self.RESULT_RECT = self.RESULT_TEXT.get_rect(center=(WIDTH/2, 250))
 
         self.player_img = pygame.image.load("menu/Player Rect.png")
         self.selected_player_img = pygame.image.load("menu/Selected Player Rect.jpg")
@@ -89,7 +89,7 @@ class Graphics:
         self.DQNP2_BUTTON = Button(image=self.player_img, pos=(WIDTH - 375, 550), 
                             text_input="DQN", font=self.get_font(25), base_color="#d7fcd4", hovering_color="White")
         
-        self.RETURN_BUTTON = Button(image=pygame.image.load("menu/Play Rect.png"), pos=(WIDTH/2, 500), 
+        self.RETURN_BUTTON = Button(image=pygame.image.load("menu/Return Rect.png"), pos=(WIDTH/2, 400), 
                             text_input="RETURN TO MAIN MENU", font=self.get_font(30), base_color="#d7fcd4", hovering_color="White")
 
 
@@ -297,13 +297,7 @@ class Graphics:
 
     def end_menu(self, result: int, events) -> int:
         MENU_MOUSE_POS = pygame.mouse.get_pos()
-
-        if result == 1:
-            self.RESULT_TEXT = self.get_font(70).render("PLAYER 1 WON", True, "#b68f40")
-        elif result == 2:
-            self.RESULT_TEXT = self.get_font(70).render("PLAYER 2 WON", True, "#b68f40")
-        elif result == -1:
-            self.RESULT_TEXT = self.get_font(70).render("TIE", True, "#b68f40")
+        self.change_result_text(result)
 
         self.screen.blit(self.bg, (0, 0))
         self.screen.blit(self.RESULT_TEXT, self.RESULT_RECT)
@@ -322,6 +316,17 @@ class Graphics:
     # Returns Press-Start-2P in the desired size
     def get_font(self, size): 
         return pygame.font.Font("menu/font.ttf", size)
+    
+
+    # changes the result text to the winner
+    def change_result_text(self, result: int):
+        if result == 1:
+            self.RESULT_TEXT = self.get_font(70).render("PLAYER 1 WON", True, "#b68f40")
+        elif result == 2:
+            self.RESULT_TEXT = self.get_font(70).render("PLAYER 2 WON", True, "#b68f40")
+        elif result == -1:
+            self.RESULT_TEXT = self.get_font(70).render("TIE", True, "#b68f40")
+        self.RESULT_RECT = self.RESULT_TEXT.get_rect(center=(WIDTH/2, 250))
 
 
     def __call__(self, state) -> None:
