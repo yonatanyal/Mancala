@@ -4,6 +4,7 @@ from State import State
 from Environment import Environment
 from Human_Agent import Human_Agent
 from Random_Agent import Random_Agent
+from Fix_Agent import Fix_Agent
 from DQN_Agent import DQN_Agent
 from Agent import Agent
 import sys
@@ -36,14 +37,18 @@ def main_menu():
             case 3:
                 player1  = DQN_Agent(1, env, parameters_path=best_model_path_P1)
             case 4:
-                player2  = Human_Agent(2, env, graphics)
+                player1  = Fix_Agent(1, env)
             case 5:
-                player2  = Random_Agent(2, env)
+                player2  = Human_Agent(2, env, graphics)
             case 6:
-                player2  = DQN_Agent(2, env)
+                player2  = Random_Agent(2, env)
             case 7:
+                player2  = DQN_Agent(2, env)
+            case 8:
+                player2  = Fix_Agent(2, env)
+            case 9:
                 play()
-        
+
         pygame.display.update()
         # pygame.display.flip()
         clock.tick(FPS)
@@ -60,15 +65,14 @@ def play():
             if event.type == pygame.QUIT:
                 sys.exit()
 
-        if play:
-            action = player(env.state, events)
-            if action:
-                env.move(env.state, action)
-                player = switch_players(player)
-                if env.is_end_of_game(env.state):
-                    end_menu(env.state.end_of_game)
-                    return
-    
+        action = player(env.state, events)
+        if action:
+            env.move(env.state, action)
+            player = switch_players(player)
+            if env.is_end_of_game(env.state):
+                end_menu(env.state.end_of_game)
+                return
+
         graphics(env.state)   
         pygame.display.update()
         # pygame.display.flip()

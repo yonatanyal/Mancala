@@ -11,6 +11,11 @@ class Environment:
     def restart(self):
         self.state = State()
 
+    
+    def empty_pits(self, state: State):
+        row = state.player - 1
+        return [(row, col) for col in range(COLS) if state.board[row][col] == 0]
+
 
     def legal(self, state: State, action: tuple) -> bool:
         if not action:
@@ -31,6 +36,9 @@ class Environment:
 
 
     def move(self, state: State, action: tuple) -> tuple[State, int]:
+        print(state.board)
+        print(action)
+
         state.extra_turn = False
         state.curr_extra_turn = False
         if action == (-1, -1):
@@ -68,13 +76,13 @@ class Environment:
             reward += 1 if player == 1 else -1 # Rewarding player
         
         # Checking if the last stone landed on an empty pit
-        elif player == 1 and state.board[curr_pit] == 1 and curr_pit[0] == 0 and state.board[1][curr_pit[1] - 1] != 0:
+        elif player == 1 and state.board[curr_pit] == 1 and curr_pit[0] == 0:
             added = state.board[1][curr_pit[1] - 1] + 1
             state.board[0][0] += added
             state.board[1][curr_pit[1] - 1] = 0
             state.board[curr_pit] = 0
             
-        elif player == 2 and state.board[curr_pit] == 1 and curr_pit[0] == 1 and state.board[0][curr_pit[1] + 1] != 0:
+        elif player == 2 and state.board[curr_pit] == 1 and curr_pit[0] == 1:
             added = state.board[0][curr_pit[1] + 1] + 1
             state.board[1][6] += added
             state.board[0][curr_pit[1] + 1] = 0
