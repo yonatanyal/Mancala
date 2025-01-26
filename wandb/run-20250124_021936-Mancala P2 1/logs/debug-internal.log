@@ -1,0 +1,8 @@
+{"time":"2025-01-24T02:19:36.5291277+02:00","level":"INFO","msg":"using version","core version":"0.19.1"}
+{"time":"2025-01-24T02:19:36.5291277+02:00","level":"INFO","msg":"created symlink","path":"C:\\yonatan\\school\\AI\\AI project\\Mancala\\wandb\\run-20250124_021936-Mancala P2 1\\logs\\debug-core.log"}
+{"time":"2025-01-24T02:19:36.6814976+02:00","level":"INFO","msg":"created new stream","id":"Mancala P2 1"}
+{"time":"2025-01-24T02:19:36.6814976+02:00","level":"INFO","msg":"stream: started","id":"Mancala P2 1"}
+{"time":"2025-01-24T02:19:36.6814976+02:00","level":"INFO","msg":"sender: started","stream_id":"Mancala P2 1"}
+{"time":"2025-01-24T02:19:36.6814976+02:00","level":"INFO","msg":"handler: started","stream_id":"Mancala P2 1"}
+{"time":"2025-01-24T02:19:36.6814976+02:00","level":"INFO","msg":"writer: Do: started","stream_id":"Mancala P2 1"}
+{"time":"2025-01-24T02:19:36.9907216+02:00","level":"INFO","msg":"Starting system monitor"}

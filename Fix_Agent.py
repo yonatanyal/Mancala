@@ -7,8 +7,8 @@ from State import State
 
 
 class Fix_Agent(Random_Agent):
-        def __init__(self, player: int, env: Environment) -> None:
-            super().__init__(player, env)
+        def __init__(self, player: int, env: Environment, test = False) -> None:
+            super().__init__(player, env, test)
             
 
         def get_action(self, state: State) -> tuple[int]:

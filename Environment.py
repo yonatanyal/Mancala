@@ -36,9 +36,6 @@ class Environment:
 
 
     def move(self, state: State, action: tuple) -> tuple[State, int]:
-        print(state.board)
-        print(action)
-
         state.extra_turn = False
         state.curr_extra_turn = False
         if action == (-1, -1):

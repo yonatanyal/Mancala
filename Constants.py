@@ -33,7 +33,7 @@ output_size = 1 # Q(s,a)
 GAMMA = 0.99
 
 #DQN Training
-epochs = 200000
+epochs = 60000
 C = 200
 BATCH_SIZE = 64
 LR = 0.001
@@ -43,4 +43,4 @@ device = torch.device("cpu")
 # device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 best_model_path_P1 = 'Data/Player1/DQN_Model11.pth'
-best_model_path_P2 = 'Data/Player2/DQN_Model1.pth'
+best_model_path_P2 = 'Data/Player2/DQN_Model2.pth'

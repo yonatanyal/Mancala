@@ -1,6 +1,6 @@
 from DQN import DQN
 from DQN_Agent import DQN_Agent
-from Random_Agent import Random_Agent
+from Fix_Agent import Fix_Agent
 from Environment import Environment
 from ReplayBuffer import ReplayBuffer
 from State import State
@@ -15,7 +15,7 @@ def main ():
     ''' Preparing Data '''
     # init model
     env = Environment()
-    player1 = Random_Agent(1, env)
+    player1 = Fix_Agent(1, env)
     player2 = DQN_Agent(2, env , train=True)
     buffer = ReplayBuffer()
     Q_hat :DQN = player2.DQN.copy()
@@ -29,13 +29,13 @@ def main ():
     start_epoch = 0
 
     # init Testing
-    tester =  Tester(env, player1, player2)
+    tester = Tester(env, player1, player2)
     best_model_state_dict = player2.DQN.state_dict()
     best_win_p = 0
     
     # Load checkpoint
     resume_wandb = False
-    run_id = 1
+    run_id = 2
     checkpoint_path = f'Data/Player2/checkpoint{run_id}.pth'
     buffer_path = f'Data/buffers/Player2/buffer_run{run_id}.pth'
     file = f"Data/Player2/DQN_Model{run_id}.pth"
@@ -78,9 +78,9 @@ def main ():
     ''' Training '''
     for epoch in range(start_epoch, epochs):
         # First Move
-        satrt_state = State()
-        action = player1.get_action(satrt_state)
-        state, reward = env.move(satrt_state, action)
+        state = State()
+        action = player1.get_action(state)
+        env.move(state, action)
 
         while not env.is_end_of_game(state):
             #region ############### Sample Environment
@@ -122,10 +122,10 @@ def main ():
 
         # update metrics
         diff = state.diff()
-        avg_diff += diff
-        if diff > 0:
+        avg_diff -= diff
+        if diff < 0:
             wins += 1
-        elif diff < 0:
+        elif diff > 0:
             defeats += 1   
     
         if (epoch + 1) % 10 == 0:

@@ -13,22 +13,19 @@ import time
 
 
 class DQN_Agent(Agent):
-    def __init__(self, player: int, env: Environment, parameters_path = None, train = False, test = False) -> None:
+    def __init__(self, player: int, env: Environment, parameters_path = None, test = False, train = False) -> None:
         super().__init__(player, env)
         self.DQN = DQN()
         if parameters_path:
             self.DQN.load_params(parameters_path)
-        self.train = train
         self.test = test
+        self.train = train
 
 
     def get_action (self, state: State, epoch = 0) -> tuple[int]:
-        action = super().get_action(state)
+        action = super().get_action(state, self.train)
         if action: 
             return action
-        
-        if not (self.train or self.test):
-            time.sleep(0.6)
 
         epsilon = epsilon_greedy(epoch)
         rnd = random.random()
