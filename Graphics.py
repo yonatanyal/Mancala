@@ -81,8 +81,8 @@ class Graphics:
                             text_input="RANDOM", font=self.get_font(25), base_color="#d7fcd4", hovering_color="White")
         self.DQNP1_BUTTON = Button(image=self.player_img, pos=(3*WIDTH/4 - 200, 400), 
                             text_input="DQN", font=self.get_font(25), base_color="#d7fcd4", hovering_color="White")
-        self.FIXP1_BUTTON = Button(image=self.player_img, pos=(WIDTH - 300, 400), 
-                            text_input="FIX", font=self.get_font(25), base_color="#d7fcd4", hovering_color="White")
+        self.ADVANCED1_BUTTON = Button(image=self.player_img, pos=(WIDTH - 300, 400), 
+                            text_input="RANDOMa", font=self.get_font(25), base_color="#d7fcd4", hovering_color="White")
         
         self.HUMANP2_BUTTON = Button(image=self.selected_player_img, pos=(WIDTH/4, 550), 
                             text_input="HUMAN", font=self.get_font(25), base_color="#d7fcd4", hovering_color="White")
@@ -90,8 +90,8 @@ class Graphics:
                             text_input="RANDOM", font=self.get_font(25), base_color="#d7fcd4", hovering_color="White")
         self.DQNP2_BUTTON = Button(image=self.player_img, pos=(3*WIDTH/4 - 200, 550), 
                             text_input="DQN", font=self.get_font(25), base_color="#d7fcd4", hovering_color="White")
-        self.FIXP2_BUTTON = Button(image=self.player_img, pos=(WIDTH - 300, 550), 
-                            text_input="FIX", font=self.get_font(25), base_color="#d7fcd4", hovering_color="White")
+        self.ADVANCED2_BUTTON = Button(image=self.player_img, pos=(WIDTH - 300, 550), 
+                            text_input="RANDOMa", font=self.get_font(25), base_color="#d7fcd4", hovering_color="White")
         
         self.RETURN_BUTTON = Button(image=pygame.image.load("menu/Return Rect.png"), pos=(WIDTH/2, 400), 
                             text_input="RETURN TO MAIN MENU", font=self.get_font(30), base_color="#d7fcd4", hovering_color="White")
@@ -275,8 +275,8 @@ class Graphics:
         self.screen.blit(self.P2_TEXT, self.P2_RECT)
 
         buttons = [
-            self.HUMANP1_BUTTON, self.RANDOMP1_BUTTON, self.DQNP1_BUTTON, self.FIXP1_BUTTON,
-            self.HUMANP2_BUTTON, self.RANDOMP2_BUTTON, self.DQNP2_BUTTON, self.FIXP2_BUTTON,
+            self.HUMANP1_BUTTON, self.RANDOMP1_BUTTON, self.DQNP1_BUTTON, self.ADVANCED1_BUTTON,
+            self.HUMANP2_BUTTON, self.RANDOMP2_BUTTON, self.DQNP2_BUTTON, self.ADVANCED2_BUTTON,
             self.PLAY_BUTTON
         ]
 

@@ -8,4 +8,4 @@ def epsilon_greedy(epoch = 0, start = epsilon_start, final = epsilon_final, deca
         #linear
         res = start - (start / final) * epoch
 
-        return res
+        return res if res > final else final

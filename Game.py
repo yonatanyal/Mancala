@@ -4,7 +4,7 @@ from State import State
 from Environment import Environment
 from Human_Agent import Human_Agent
 from Random_Agent import Random_Agent
-from Fix_Agent import Fix_Agent
+from Advanced_Random_Agent import Advanced_Random_Agent
 from DQN_Agent import DQN_Agent
 from Agent import Agent
 import sys
@@ -37,7 +37,7 @@ def main_menu():
             case 3:
                 player1  = DQN_Agent(1, env, parameters_path=best_model_path_P1)
             case 4:
-                player1  = Fix_Agent(1, env)
+                player1  = Advanced_Random_Agent(1, env)
             case 5:
                 player2  = Human_Agent(2, env, graphics)
             case 6:
@@ -45,7 +45,7 @@ def main_menu():
             case 7:
                 player2  = DQN_Agent(2, env, parameters_path=best_model_path_P2)
             case 8:
-                player2  = Fix_Agent(2, env)
+                player2  = Advanced_Random_Agent(2, env)
             case 9:
                 play()
 

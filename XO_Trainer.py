@@ -1,6 +1,5 @@
 from DQN import DQN
 from DQN_Agent import DQN_Agent
-from Advanced_Random_Agent import Advanced_Random_Agent
 from Environment import Environment
 from ReplayBuffer import ReplayBuffer
 from State import State
@@ -15,12 +14,15 @@ def main ():
     ''' Preparing Data '''
     # init model
     env = Environment()
-    player1 = Advanced_Random_Agent(1, env)
-    player2 = DQN_Agent(2, env , train=True)
+    player1 = DQN_Agent(1, env , train=True)
+    player2 = DQN_Agent(2, env, train=True)
     buffer = ReplayBuffer()
-    Q_hat :DQN = player2.DQN.copy()
-    Q_hat.train = False
-    optim = torch.optim.Adam(player2.DQN.parameters(), lr=LR)
+    Q_hat1 :DQN = player1.DQN.copy()
+    Q_hat1.train = False
+    Q_hat2 :DQN = player2.DQN.copy()
+    Q_hat2.train = False
+    optim1 = torch.optim.Adam(player1.DQN.parameters(), lr=LR)
+    optim2 = torch.optim.Adam(player2.DQN.parameters(), lr=LR)
     loss = torch.tensor([0])
 
     # init metrics
@@ -29,21 +31,21 @@ def main ():
     start_epoch = 0
 
     # init Testing
-    tester = Tester(env, player1, player2)
-    best_model_state_dict = player2.DQN.state_dict()
+    tester =  Tester(env, player1, player2)
+    best_model_state_dict = player1.DQN.state_dict()
     best_win_p = 0
     
     # Load checkpoint
     resume_wandb = False
-    run_id = 2
-    checkpoint_path = f'Data/Player2/checkpoint{run_id}.pth'
-    buffer_path = f'Data/buffers/Player2/buffer_run{run_id}.pth'
-    file = f"Data/Player2/DQN_Model{run_id}.pth"
+    run_id = 11
+    checkpoint_path = f'Data/Player1/checkpoint{run_id}.pth'
+    buffer_path = f'Data/buffers/Player1/buffer_run{run_id}.pth'
+    file = f"Data/Player1/DQN_Model{run_id}.pth"
     if os.path.exists(checkpoint_path):
         resume_wandb = True
         checkpoint = torch.load(checkpoint_path)
         start_epoch = checkpoint['epoch'] + 1
-        player2.DQN.load_state_dict(checkpoint['model_state_dict'])
+        player1.DQN.load_state_dict(checkpoint['model_state_dict'])
         Q_hat.load_state_dict(checkpoint['model_state_dict'])
         best_model_state_dict = checkpoint['best_model_state_dict']
         optim.load_state_dict(checkpoint['optimizer_state_dict'])
@@ -54,15 +56,16 @@ def main ():
         defeats_per_10 = checkpoint['defeats']
         buffer = torch.load(buffer_path)
 
-    Q = player2.DQN
+
+    Q = player1.DQN
 
     # init wandb
     wandb.init(
         project="Mancala",
         resume=resume_wandb,
-        id=f'Mancala P2 {run_id}',
+        id=f'Mancala {run_id}',
         config={
-            "name": f'Mancala P2 {run_id}',
+            "name": f'Mancala {run_id}',
             "checkpoint": checkpoint_path,
             "learning_rate": LR,
             "epochs": epochs,
@@ -71,30 +74,25 @@ def main ():
             "gamma": GAMMA,
             "batch_size": BATCH_SIZE, 
             "C": C,
-            "Model": str(player2.DQN),
+            "Model": str(player1.DQN),
             "device": str(device)
         })
     
     ''' Training '''
     for epoch in range(start_epoch, epochs):
-        # First Move
         state = State()
-        action = player1.get_action(state)
-        env.move(state, action)
-
         while not env.is_end_of_game(state):
             #region ############### Sample Environment
-            action = player2.get_action(state, epoch=epoch)
+            action = player1.get_action(state, epoch=epoch)
             after_state, reward = env.move(state.copy(), action)
             if env.is_end_of_game(after_state):
                 buffer.push(state, action, reward, after_state, env.is_end_of_game(after_state))
                 state = after_state
                 break
             
-            after_action = player1.get_action(state=after_state)
+            after_action = player2.get_action(state=after_state)
             next_state, next_reward = env.move(after_state.copy(), after_action)
             reward += next_reward
-            reward *= -1 # reverse reward
             done = env.is_end_of_game(next_state)
             buffer.push(state, action, reward, next_state, done)
             state = next_state
@@ -107,7 +105,7 @@ def main ():
             #region ############### Back propagation 
             states, actions, rewards, next_states, dones = buffer.sample(BATCH_SIZE)
             Q_values = Q(states, actions)
-            next_actions = player2.get_actions(next_states, dones)
+            next_actions = player1.get_actions(next_states, dones)
             with torch.no_grad():
                 Q_hat_Values = Q_hat(next_states, next_actions)
             
@@ -122,10 +120,10 @@ def main ():
 
         # update metrics
         diff = state.diff()
-        avg_diff -= diff
-        if diff < 0:
+        avg_diff += diff
+        if diff > 0:
             wins += 1
-        elif diff > 0:
+        elif diff < 0:
             defeats += 1   
     
         if (epoch + 1) % 10 == 0:
@@ -152,17 +150,17 @@ def main ():
 
         # Test the current model and save the one with the highest win %
         if epoch % 100 == 0:
-            player2.test_mode()
+            player1.test_mode()
             win_p = tester.test()[0]
             if win_p > best_win_p:
-                best_model_state_dict = player2.DQN.state_dict()
-            player2.train_mode()
+                best_model_state_dict = player1.DQN.state_dict()
+            player1.train_mode()
 
         # create checkpoint
         if epoch % 10000 == 0:
             checkpoint = {
                 'epoch': epoch,
-                'model_state_dict': player2.DQN.state_dict(),
+                'model_state_dict': player1.DQN.state_dict(),
                 'best_model_state_dict': best_model_state_dict,
                 'optimizer_state_dict': optim.state_dict(),
                 'best_model_win_percentage' : best_win_p,
@@ -174,7 +172,7 @@ def main ():
             torch.save(checkpoint, checkpoint_path)
             torch.save(buffer, buffer_path)
 
-    player2.save_param(file)
+    player1.save_param(file)
 
     wandb.finish()
 

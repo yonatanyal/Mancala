@@ -1,6 +1,7 @@
 from DQN import DQN
 from DQN_Agent import DQN_Agent
 from Random_Agent import Random_Agent
+from Advanced_Random_Agent import Advanced_Random_Agent
 from Environment import Environment
 from ReplayBuffer import ReplayBuffer
 from State import State

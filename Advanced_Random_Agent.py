@@ -6,7 +6,7 @@ import time
 from State import State
 
 
-class Fix_Agent(Random_Agent):
+class Advanced_Random_Agent(Random_Agent):
         def __init__(self, player: int, env: Environment, test = False) -> None:
             super().__init__(player, env, test)
             

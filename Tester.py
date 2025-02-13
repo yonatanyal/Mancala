@@ -1,7 +1,7 @@
 import torch
 from Agent import Agent
 from Random_Agent import Random_Agent
-from Fix_Agent import Fix_Agent
+from Advanced_Random_Agent import Advanced_Random_Agent
 from DQN import DQN
 from DQN_Agent import DQN_Agent
 from State import State
@@ -57,12 +57,12 @@ if __name__ == '__main__':
 
     ######## PLAYER 1 ########
     player1 = Random_Agent(1, env, test=True)
-    # player1 = Fix_Agent(1, env, test=True)
+    # player1 = Advanced_Random_Agent(1, env, test=True)
     # player1 = DQN_Agent(1, env, test=True, parameters_path=best_model_path_P1)
 
     ######## PLAYER 2 ########
     # player2 = Random_Agent(2, env, test=True)
-    # player2 = Fix_Agent(2, env, test=True)
+    # player2 = Advanced_Random_Agent(2, env, test=True)
     player2 = DQN_Agent(2, env, test=True, parameters_path=best_model_path_P2)
 
     # test
