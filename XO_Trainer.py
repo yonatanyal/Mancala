@@ -12,52 +12,71 @@ import os
 
 def main ():
     ''' Preparing Data '''
-    # init model
+    # init models
     env = Environment()
     player1 = DQN_Agent(1, env , train=True)
-    player2 = DQN_Agent(2, env, train=True)
-    buffer = ReplayBuffer()
+    buffer1 = ReplayBuffer()
     Q_hat1 :DQN = player1.DQN.copy()
     Q_hat1.train = False
+    optim1 = torch.optim.Adam(player1.DQN.parameters(), lr=LR)
+
+
+    player2 = DQN_Agent(2, env, train=True)
+    buffer2 = ReplayBuffer()
     Q_hat2 :DQN = player2.DQN.copy()
     Q_hat2.train = False
-    optim1 = torch.optim.Adam(player1.DQN.parameters(), lr=LR)
     optim2 = torch.optim.Adam(player2.DQN.parameters(), lr=LR)
     loss = torch.tensor([0])
 
     # init metrics
-    losses, avg_diffs, wins_per_10, defeats_per_10 = [], [], [], []
+    losses, avg_diffs, wins_per_10 = [], [], [], []
     avg_diff, wins, defeats = 0, 0 ,0
     start_epoch = 0
 
+    
+
     # init Testing
     tester =  Tester(env, player1, player2)
-    best_model_state_dict = player1.DQN.state_dict()
-    best_win_p = 0
+    best_model_state_dict1 = player1.DQN.state_dict()
+    best_win_p1 = 0
+
+    best_model_state_dict2 = player2.DQN.state_dict()
+    best_win_p2 = 0
     
-    # Load checkpoint
+    # Load player 1 checkpoint 
     resume_wandb = False
-    run_id = 11
-    checkpoint_path = f'Data/Player1/checkpoint{run_id}.pth'
-    buffer_path = f'Data/buffers/Player1/buffer_run{run_id}.pth'
+    run_id = 201
+    checkpoint_path1 = f'Data/Player1/checkpoint{run_id}.pth'
+    buffer_path1 = f'Data/buffers/Player1/buffer_run{run_id}.pth'
     file = f"Data/Player1/DQN_Model{run_id}.pth"
-    if os.path.exists(checkpoint_path):
-        resume_wandb = True
-        checkpoint = torch.load(checkpoint_path)
+    if os.path.exists(checkpoint_path1):
+        checkpoint = torch.load(checkpoint_path1)
         start_epoch = checkpoint['epoch'] + 1
         player1.DQN.load_state_dict(checkpoint['model_state_dict'])
-        Q_hat.load_state_dict(checkpoint['model_state_dict'])
-        best_model_state_dict = checkpoint['best_model_state_dict']
-        optim.load_state_dict(checkpoint['optimizer_state_dict'])
-        best_win_p = checkpoint['best_model_win_percentage']
-        losses = checkpoint['loss']
-        avg_diffs = checkpoint['avg_diff']
-        wins_per_10 = checkpoint['wins']
-        defeats_per_10 = checkpoint['defeats']
-        buffer = torch.load(buffer_path)
+        Q_hat1.load_state_dict(checkpoint['model_state_dict'])
+        best_model_state_dict1 = checkpoint['best_model_state_dict']
+        optim1.load_state_dict(checkpoint['optimizer_state_dict'])
+        best_win_p1 = checkpoint['best_model_win_percentage']
+        losses1 = checkpoint['loss']
+        avg_diffs1 = checkpoint['avg_diff']
+        wins_per_10_1 = checkpoint['wins']
+        buffer1 = torch.load(buffer_path1)
 
-
-    Q = player1.DQN
+    # Load player2 checkpoint
+    checkpoint_path2 = f'Data/Player2/checkpoint{run_id}.pth'
+    buffer_path2 = f'Data/buffers/Player2/buffer_run{run_id}.pth'
+    file = f"Data/Player2/DQN_Model{run_id}.pth"
+    if os.path.exists(checkpoint_path2):
+        checkpoint = torch.load(checkpoint_path2)
+        player2.DQN.load_state_dict(checkpoint['model_state_dict'])
+        Q_hat2.load_state_dict(checkpoint['model_state_dict'])
+        best_model_state_dict2 = checkpoint['best_model_state_dict']
+        optim2.load_state_dict(checkpoint['optimizer_state_dict'])
+        best_win_p2 = checkpoint['best_model_win_percentage']
+        losses2 = checkpoint['loss']
+        avg_diffs2 = checkpoint['avg_diff']
+        wins_per_10_2 = checkpoint['wins']
+        buffer2 = torch.load(buffer_path2)
 
     # init wandb
     wandb.init(
@@ -66,7 +85,8 @@ def main ():
         id=f'Mancala {run_id}',
         config={
             "name": f'Mancala {run_id}',
-            "checkpoint": checkpoint_path,
+            "checkpoint1": checkpoint_path1,
+            "checkpoint2": checkpoint_path2,
             "learning_rate": LR,
             "epochs": epochs,
             "start_epoch": start_epoch,
