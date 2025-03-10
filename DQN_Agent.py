@@ -13,24 +13,23 @@ import time
 
 
 class DQN_Agent(Agent):
-    def __init__(self, player: int, env: Environment, parameters_path = None, test = False, train = False) -> None:
+    def __init__(self, player: int, env: Environment, parameters_path = None, test = False) -> None:
         super().__init__(player, env)
         self.DQN = DQN()
         if parameters_path:
             self.DQN.load_params(parameters_path)
         self.test = test
-        self.train = train
 
 
-    def get_action (self, state: State, epoch = 0) -> tuple[int]:
-        action = super().get_action(state, self.train)
+    def get_action (self, state: State, epoch = 0, train = False) -> tuple[int]:
+        action = super().get_action(state, train)
         if action: 
             return action
 
         epsilon = epsilon_greedy(epoch)
         rnd = random.random()
         actions = self.env.legal_actions(state)
-        if self.train and rnd < epsilon:
+        if train and rnd < epsilon:
             return random.choice(actions)
         
         state_tensor = state.to_tensor()
@@ -45,26 +44,14 @@ class DQN_Agent(Agent):
 
 
     def get_actions(self, states: torch.Tensor, dones: torch.Tensor) -> torch.Tensor:
-        self.train == False # Excluding epsilon greedy
         actions = []
         for i, state in enumerate(states):
             if dones[i].item():
                 actions.append((-1, -1))
             else:
                 actions.append(self.get_action((State.tensor_to_state(state, self.player)))) 
-        self.train == True
 
         return torch.tensor(actions)
-    
-
-    def test_mode(self):
-        self.train = False
-        self.test = True
-
-    
-    def train_mode(self):
-        self.train = True
-        self.test = False
 
 
     def save_param (self, path) -> None:

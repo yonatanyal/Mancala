@@ -1,0 +1,7 @@
+{"time":"2025-03-10T09:16:04.4148151+02:00","level":"INFO","msg":"stream: starting","core version":"0.19.2","symlink path":"C:\\Users\\Talmid\\Desktop\\AI\\Mancala\\wandb\\run-20250310_091604-Mancala 12\\logs\\debug-core.log"}
+{"time":"2025-03-10T09:16:04.8974424+02:00","level":"INFO","msg":"created new stream","id":"Mancala 12"}
+{"time":"2025-03-10T09:16:04.8987597+02:00","level":"INFO","msg":"stream: started","id":"Mancala 12"}
+{"time":"2025-03-10T09:16:04.89928+02:00","level":"INFO","msg":"writer: Do: started","stream_id":"Mancala 12"}
+{"time":"2025-03-10T09:16:04.8994965+02:00","level":"INFO","msg":"sender: started","stream_id":"Mancala 12"}
+{"time":"2025-03-10T09:16:04.8994965+02:00","level":"INFO","msg":"handler: started","stream_id":"Mancala 12"}
+{"time":"2025-03-10T09:16:05.2599296+02:00","level":"INFO","msg":"Starting system monitor"}

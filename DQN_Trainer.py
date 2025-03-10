@@ -16,8 +16,8 @@ def main ():
     ''' Preparing Data '''
     # init model
     env = Environment()
-    player1 = DQN_Agent(1, env , train=True)
-    player2 = Random_Agent(2, env)
+    player1 = DQN_Agent(1, env, test=True)
+    player2 = Advanced_Random_Agent(2, env, test=True)
     buffer = ReplayBuffer()
     Q_hat :DQN = player1.DQN.copy()
     Q_hat.train = False
@@ -36,7 +36,7 @@ def main ():
     
     # Load checkpoint
     resume_wandb = False
-    run_id = 11
+    run_id = 14
     checkpoint_path = f'Data/Player1/checkpoint{run_id}.pth'
     buffer_path = f'Data/buffers/Player1/buffer_run{run_id}.pth'
     file = f"Data/Player1/DQN_Model{run_id}.pth"
@@ -81,7 +81,7 @@ def main ():
         state = State()
         while not env.is_end_of_game(state):
             #region ############### Sample Environment
-            action = player1.get_action(state, epoch=epoch)
+            action = player1.get_action(state, epoch=epoch, train=True)
             after_state, reward = env.move(state.copy(), action)
             if env.is_end_of_game(after_state):
                 buffer.push(state, action, reward, after_state, env.is_end_of_game(after_state))
@@ -148,11 +148,11 @@ def main ():
 
         # Test the current model and save the one with the highest win %
         if epoch % 100 == 0:
-            player1.test_mode()
+            player1.test = True
             win_p = tester.test()[0]
             if win_p > best_win_p:
                 best_model_state_dict = player1.DQN.state_dict()
-            player1.train_mode()
+            player1.test = False
 
         # create checkpoint
         if epoch % 10000 == 0:

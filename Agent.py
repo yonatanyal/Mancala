@@ -10,10 +10,10 @@ class Agent:
             self.test = test
 
 
-    def get_action(self, state: State, train = False) -> tuple[int] | None:
-            if not (train or self.test):
-                  time.sleep(0.6)
-                  
-            if state.extra_turn:
+    def get_action(self, state: State, train = False) -> tuple[int] | None:                  
+        if state.extra_turn:
                 return (-1, -1)
+            
+        if not (train or self.test):
+                time.sleep(0.3)
             

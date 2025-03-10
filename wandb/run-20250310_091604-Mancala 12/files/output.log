@@ -1,0 +1,14 @@
+epoch: 9, loss: 0.00, wins per 10 games: 3, avg piece difference: -2.8
+epoch: 19, loss: 0.00, wins per 10 games: 5, avg piece difference: -4.0
+epoch: 29, loss: 0.00, wins per 10 games: 6, avg piece difference: -2.8
+epoch: 39, loss: 0.00, wins per 10 games: 3, avg piece difference: -2.0
+epoch: 49, loss: 0.00, wins per 10 games: 4, avg piece difference: -1.0
+epoch: 59, loss: 0.00, wins per 10 games: 3, avg piece difference: -6.8
+epoch: 69, loss: 0.00, wins per 10 games: 2, avg piece difference: -8.6
+epoch: 79, loss: 0.00, wins per 10 games: 2, avg piece difference: -5.6
+epoch: 89, loss: 0.00, wins per 10 games: 5, avg piece difference: 1.2
+epoch: 99, loss: 0.00, wins per 10 games: 2, avg piece difference: -10.2
+epoch: 109, loss: 0.00, wins per 10 games: 5, avg piece difference: 4.0
+epoch: 119, loss: 0.00, wins per 10 games: 3, avg piece difference: -6.4
+epoch: 129, loss: 0.00, wins per 10 games: 1, avg piece difference: -4.8
+epoch: 139, loss: 0.00, wins per 10 games: 3, avg piece difference: -7.4

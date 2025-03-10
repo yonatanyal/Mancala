@@ -15,8 +15,8 @@ def main ():
     ''' Preparing Data '''
     # init model
     env = Environment()
-    player1 = Advanced_Random_Agent(1, env)
-    player2 = DQN_Agent(2, env , train=True)
+    player1 = Advanced_Random_Agent(1, env, test=True)
+    player2 = DQN_Agent(2, env , test=True)
     buffer = ReplayBuffer()
     Q_hat :DQN = player2.DQN.copy()
     Q_hat.train = False
@@ -84,7 +84,7 @@ def main ():
 
         while not env.is_end_of_game(state):
             #region ############### Sample Environment
-            action = player2.get_action(state, epoch=epoch)
+            action = player2.get_action(state, epoch=epoch, train=True)
             after_state, reward = env.move(state.copy(), action)
             if env.is_end_of_game(after_state):
                 buffer.push(state, action, reward, after_state, env.is_end_of_game(after_state))
@@ -152,11 +152,11 @@ def main ():
 
         # Test the current model and save the one with the highest win %
         if epoch % 100 == 0:
-            player2.test_mode()
+            player2.test = True
             win_p = tester.test()[0]
             if win_p > best_win_p:
                 best_model_state_dict = player2.DQN.state_dict()
-            player2.train_mode()
+            player2.test = False
 
         # create checkpoint
         if epoch % 10000 == 0:
